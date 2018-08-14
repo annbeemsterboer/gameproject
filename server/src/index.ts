@@ -1,3 +1,5 @@
+import * as dotenv from 'dotenv'
+dotenv.config()
 import 'reflect-metadata'
 import { Action, BadRequestError, useKoaServer } from 'routing-controllers'
 import setupDb from './db'
@@ -52,7 +54,7 @@ io.use(
   socketIoJwtAuth.authenticate({ secret }, async (payload, done) => {
     const user = await User.findOneById(payload.id)
     if (user) done(null, user)
-    else done(null, false, `Invalid JWT user ID`)
+    else done(null, false, 'Invalid JWT user ID')
   })
 )
 

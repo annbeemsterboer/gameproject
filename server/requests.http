@@ -1,14 +1,44 @@
 http://localhost:4000/games/1
 Content-Type: application/json
-Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MjU0Njk3LCJleHAiOjE1MzQyNjkwOTd9.TDLfrJ_npCCyUcvhdUzqhbma2M-GQDG620wYPR8USig
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MjcxNjA3LCJleHAiOjE1MzQyODYwMDd9.Z8eQXY6FFvI-EeRJSYS7TlJeBvfJccyR5jegtfmvEBQ
 
 ###
 http://localhost:4000/games
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MjcxNjA3LCJleHAiOjE1MzQyODYwMDd9.Z8eQXY6FFvI-EeRJSYS7TlJeBvfJccyR5jegtfmvEBQ
 
 
+############ CREATE GAME ###############
+### Hajime
+POST http://localhost:4000/games
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MjcxNjA3LCJleHAiOjE1MzQyODYwMDd9.Z8eQXY6FFvI-EeRJSYS7TlJeBvfJccyR5jegtfmvEBQ
+############ UPDATE GAME ###############
+PATCH http://localhost:4000/games/1
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MjcxNjA3LCJleHAiOjE1MzQyODYwMDd9.Z8eQXY6FFvI-EeRJSYS7TlJeBvfJccyR5jegtfmvEBQ
 
 ###
+### Somebody
 POST http://localhost:4000/games
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTM0MjcyMDg5LCJleHAiOjE1MzQyODY0ODl9.FHZwwdQjbQUmew1S9jgeoJHLSsSZBRQfYCIsJUsEsHE
+
+### Somebody
+POST http://localhost:4000/games/1/players
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTM0MjcyMDg5LCJleHAiOjE1MzQyODY0ODl9.FHZwwdQjbQUmew1S9jgeoJHLSsSZBRQfYCIsJUsEsHE
+
+
+
+
+
+
+
+
+
+
+
 
 
 ###
@@ -18,5 +48,16 @@ Content-Type: application/json
 
 {
   "email": "hajime.doublebass@gmail.com",
+  "password":"testtest"
+}
+
+###
+POST http://localhost:4000/users
+Content-Type: application/json
+
+{
+  "firstName":"Somebody",
+  "lastName": "Suzuki",
+  "email": "hajime.doublebasss@gmail.com",
   "password":"testtest"
 }
