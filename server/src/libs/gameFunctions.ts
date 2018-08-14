@@ -1,6 +1,6 @@
 import { boardSetting } from '../games/gameSettings'
 
-const { gridSize, o, y, z } = boardSetting
+const { gridSize, normal, o, y, z } = boardSetting
 const specialSymbols = [o, y, z]
 
 const shuffleArray = targetArr => {
@@ -24,12 +24,11 @@ export const getRandomBoard = () => {
   //   .concat(Array(y.symbol).fill(y.symbol), Array(z.symbol).fill(z.symbol))
   const specialCharArr = getArrayFilledWithSymbols()
   const defaultArr = Array(gridSize * gridSize)
-    .fill('x')
+    .fill(normal.symbol)
     .slice(0, -specialCharArr.length)
     .concat(specialCharArr)
 
   const shuffledArr = shuffleArray(defaultArr)
-  console.log(shuffledArr)
 
   return [...Array(gridSize)].map((_, i) => {
     return shuffledArr.splice(0, gridSize)
