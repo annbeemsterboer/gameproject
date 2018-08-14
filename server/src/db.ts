@@ -37,7 +37,7 @@ export default () =>
       process.env.DATABASE_URL ||
       'postgres://postgres:secret@localhost:5432/game',
     entities: [User, Player, Game],
-    // synchronize: true, // careful with this in production!
-    logging: true,
+    synchronize: true, // careful with this in production!
+    // logging: true,
     namingStrategy: new CustomNamingStrategy()
   }).then(_ => console.log('Connected to Postgres with TypeORM'))
