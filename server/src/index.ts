@@ -41,7 +41,6 @@ useKoaServer(app, {
 
       if (token) {
         const { id } = verify(token)
-        console.log('===========', id)
         return User.findOneById(id)
       }
     }
