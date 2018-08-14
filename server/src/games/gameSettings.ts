@@ -1,15 +1,18 @@
 export const boardSetting = {
-  gridSize: 4,
+  gridSize: 5,
+  normal: {
+    symbol: '-'
+  },
   o: {
-    amount: 2,
+    amount: 4,
     symbol: 'O'
   },
   y: {
-    amount: 2,
+    amount: 4,
     symbol: 'Y'
   },
   z: {
-    amount: 2,
+    amount: 10,
     symbol: 'Z'
   }
 }
