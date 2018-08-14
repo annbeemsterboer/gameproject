@@ -1,0 +1,22 @@
+http://localhost:4000/games/1
+Content-Type: application/json
+Authorization:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MjU0Njk3LCJleHAiOjE1MzQyNjkwOTd9.TDLfrJ_npCCyUcvhdUzqhbma2M-GQDG620wYPR8USig
+
+###
+http://localhost:4000/games
+
+
+
+###
+POST http://localhost:4000/games
+
+
+###
+
+POST http://localhost:4000/logins
+Content-Type: application/json
+
+{
+  "email": "hajime.doublebass@gmail.com",
+  "password":"testtest"
+}
