@@ -1,43 +1,52 @@
-import { BaseEntity, PrimaryGeneratedColumn, Column, Entity, Index, OneToMany, ManyToOne } from 'typeorm'
+import {
+  BaseEntity,
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  Index,
+  OneToMany,
+  ManyToOne
+} from 'typeorm'
 import User from '../users/entity'
 
-export type Symbol = 'x' | 'o'
-export type Row = [ Symbol | null, Symbol | null, Symbol | null ]
-export type Board = [ Row, Row, Row ]
+export type Symbol = 'x' | 'o' | 'z' | 'm' | number
+export type Row = [Symbol, Symbol, Symbol]
+export type Board = [Row, Row, Row]
 
 type Status = 'pending' | 'started' | 'finished'
 
-const emptyRow: Row = [null, null, null]
-const emptyBoard: Board = [ emptyRow, emptyRow, emptyRow ]
+// const emptyRow: Row = [null, null, null]
+// const emptyBoard: Board = [emptyRow, emptyRow, emptyRow]
 
 @Entity()
 export class Game extends BaseEntity {
-
   @PrimaryGeneratedColumn()
   id?: number
 
-  @Column('json', {default: emptyBoard})
+  @Column('json')
   board: Board
 
-  @Column('char', {length:1, default: 'x'})
-  turn: Symbol
+  @Column('json')
+  defaultBoard: Board
 
-  @Column('char', {length:1, nullable: true})
+  @Column('int')
+  turn: number
+
+  @Column('char', { length: 1, nullable: true })
   winner: Symbol
 
-  @Column('text', {default: 'pending'})
+  @Column('text', { default: 'pending' })
   status: Status
 
   // this is a relation, read more about them here:
   // http://typeorm.io/#/many-to-one-one-to-many-relations
-  @OneToMany(_ => Player, player => player.game, {eager:true})
+  @OneToMany(_ => Player, player => player.game, { eager: true })
   players: Player[]
 }
 
 @Entity()
-@Index(['game', 'user', 'symbol'], {unique:true})
+@Index(['game', 'user'], { unique: true })
 export class Player extends BaseEntity {
-
   @PrimaryGeneratedColumn()
   id?: number
 
@@ -47,9 +56,9 @@ export class Player extends BaseEntity {
   @ManyToOne(_ => Game, game => game.players)
   game: Game
 
-  // @Column()
-  // userId: number
+  @Column({ default: 0 })
+  point: number
 
-  @Column('char', {length: 1})
-  symbol: Symbol
+  @Column()
+  userId: number
 }
