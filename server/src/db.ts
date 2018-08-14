@@ -36,7 +36,7 @@ export default () =>
     url:
       process.env.DATABASE_URL ||
       'postgres://postgres:secret@localhost:5432/game',
-    entities: [User, Player, Game],
+    entities: [Player, User, Game],
     synchronize: true, // careful with this in production!
     // logging: true,
     namingStrategy: new CustomNamingStrategy()
