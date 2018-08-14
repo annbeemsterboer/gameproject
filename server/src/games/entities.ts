@@ -9,24 +9,24 @@ import {
 } from 'typeorm'
 import User from '../users/entity'
 
-export type Symbol = 'x' | 'o' | 'z' | 'm' | number
+export type Symbol = 'x' | 'o' | 'z' | 'm' | null
 export type Row = [Symbol, Symbol, Symbol]
 export type Board = [Row, Row, Row]
 
 type Status = 'pending' | 'started' | 'finished'
 
-// const emptyRow: Row = [null, null, null]
-// const emptyBoard: Board = [emptyRow, emptyRow, emptyRow]
+const emptyRow: Row = [null, null, null]
+const emptyBoard: Board = [emptyRow, emptyRow, emptyRow]
 
 @Entity()
 export class Game extends BaseEntity {
   @PrimaryGeneratedColumn()
   id?: number
 
-  @Column('json')
+  @Column('json', { default: emptyBoard })
   board: Board
 
-  @Column('json')
+  @Column('json', { default: emptyBoard })
   defaultBoard: Board
 
   @Column('int')
