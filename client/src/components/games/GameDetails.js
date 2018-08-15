@@ -31,6 +31,7 @@ class GameDetails extends PureComponent {
   // }
 
   render() {
+    console.log(this.props)
     const { game, users, authenticated, userId } = this.props
 
     if (!authenticated) return <Redirect to="/login" />
@@ -45,14 +46,14 @@ class GameDetails extends PureComponent {
       .map(p => p.userId)[0]
 
     return (
-      <Paper className="outer-paper">
-        <h1>Game #{game.id}</h1>
+      <div>
+        {/* <h1>Game #{game.id}</h1>
 
         <p>Status: {game.status}</p>
 
         {game.status === 'started' &&
           player &&
-          player.symbol === game.turn && <div>It's your turn!</div>}
+          player.id === game.turn && <div>It's your turn!</div>}
 
         {game.status === 'pending' &&
           game.players.map(p => p.userId).indexOf(userId) === -1 && (
@@ -61,10 +62,12 @@ class GameDetails extends PureComponent {
 
         {winner && <p>Winner: {users[winner].firstName}</p>}
 
-        <hr />
-
-        {game.status !== 'pending' && <Board />}
-      </Paper>
+        <hr /> */}
+        <div className="page">
+          {game.status !== 'pending' && <Board />}
+          <div className="scoreboard">text div</div>
+        </div>
+      </div>
     )
   }
 }
