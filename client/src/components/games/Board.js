@@ -27,25 +27,31 @@ class Board extends PureComponent {
   render() {
     const { currentGameId } = this.props
     if (!this.props.games[currentGameId].generatedBoard) return 'fetching..'
-    return this.props.games[currentGameId].generatedBoard.map((row, rowI) => {
-      return (
-        <div>
-          {row.map((column, columnI) => {
-            return (
-              <span>
-                <button
-                  className="button"
-                  disabled={this.props.turn !== this.props.currentUser.id}
-                  onClick={() => this.makeMove(rowI, columnI, this.props.turn)}
-                >
-                  {columnI}
-                </button>
-              </span>
-            )
-          })}
-        </div>
-      )
-    })
+    return (
+      <div className="buttonPad">
+        {defaultbord.map((row, rowI) => {
+          return (
+            <div className="buttonRow">
+              {row.map((column, columnI) => {
+                return (
+                  <span>
+                    <button
+                      className="button"
+                      disabled={this.props.turn !== this.props.currentUser.id}
+                      onClick={() =>
+                        this.makeMove(rowI, columnI, this.props.turn)
+                      }
+                    >
+                      {columnI}
+                    </button>
+                  </span>
+                )
+              })}
+            </div>
+          )
+        })}
+      </div>
+    )
   }
 }
 
