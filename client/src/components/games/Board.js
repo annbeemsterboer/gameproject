@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import './Board.css'
 import { connect } from 'react-redux'
 import { sendMoveInfo } from '../../actions/games'
+import './GameDetails.css'
 
 const defaultbord = [
   [null, null, null, null],
@@ -32,6 +33,7 @@ class Board extends PureComponent {
             return (
               <span>
                 <button
+                  className="button"
                   disabled={this.props.turn !== this.props.currentUser.id}
                   onClick={() => this.makeMove(rowI, columnI, this.props.turn)}
                 >

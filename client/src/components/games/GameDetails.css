@@ -4,3 +4,26 @@
   padding: 20px;
   width: 60%;
 }
+
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  height: 50x;
+  width: 50px;
+  padding: 30px;
+  background: url("https://cdn.iconscout.com/public/images/icon/premium/png-512/water-birds-sea-ocean-388044e387f3fa79-512x512.png") no-repeat;
+  background-size: 100% !important;
+  background-position: center;
+  margin: 3px
+}
+
+.button:hover {
+  cursor: progress;
+  /* url('https://static.thenounproject.com/png/154753-200.png'), auto; */
+  background: url("https://i.pinimg.com/736x/45/1b/49/451b49be57e755993051af6561f8ae61--fish-logo-design-fisk.jpg") no-repeat;
+  background-size: 100% !important;
+  background-position: center;
+  height: 60x;
+  width: 60px;
+  /* color: white; */
+}
