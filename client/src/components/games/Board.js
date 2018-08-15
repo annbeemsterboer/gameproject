@@ -3,6 +3,7 @@ import './Board.css'
 import { connect } from 'react-redux'
 import { sendMoveInfo } from '../../actions/games'
 import './GameDetails.css'
+import rod from './assets/img/rod.png'
 
 const defaultbord = [
   [null, null, null, null],
@@ -22,12 +23,10 @@ class Board extends PureComponent {
       },
 
       this.props.currentGameId
-
     )
   }
 
   render() {
-
     const { currentGameId } = this.props
     if (!this.props.games[currentGameId].generatedBoard) return 'fetching..'
 
@@ -41,7 +40,8 @@ class Board extends PureComponent {
                   <span key={columnI}>
                     <button
                       className="button"
-                      disabled={this.props.turn !== currentGameId}
+                      style={{ cursor: `url(${rod}), auto` }}
+                      disabled={this.props.turn !== this.props.currentUserId}
                       onClick={() =>
                         this.makeMove(rowI, columnI, this.props.turn)
                       }
