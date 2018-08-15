@@ -72,11 +72,14 @@ export const sendMoveInfo = (moveInfo, gameId) => (dispatch, getState) => {
   const jwt = state.currentUser.jwt
 
   if (isExpired(jwt)) return dispatch(logout())
+
+  console.log(moveInfo, gameId)
+
   request
     .patch(`${baseUrl}/games/${gameId}`)
     .set('Authorization', `Bearer ${jwt}`)
     .send({
-      moveInfo
+      position: moveInfo
     })
     .then(_ => dispatch(updateGameSuccess()))
     .catch(err => console.error(err))
