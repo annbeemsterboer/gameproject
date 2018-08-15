@@ -17,6 +17,7 @@ import { Game, Player, Board } from './entities'
 import { IsBoard, isValidTransition, calculateWinner, finished } from './logic'
 import { Validate } from 'class-validator'
 import { io } from '../index'
+import { calculatePoints } from '../libs/gameFunctions'
 
 class updatedGameData {
   // @Validate(IsBoard, {
@@ -112,36 +113,50 @@ export default class GameController {
     @Body() { position }: updatedGameData
   ) {
     console.log('=================', Date.now())
+    // console.log(user)
+    try {
+      const game = await Game.findOneById(gameId)
 
-    const game = await Game.findOneById(gameId)
-    if (!game) throw new NotFoundError('Game does not exist')
+      if (!game) throw new NotFoundError('Game does not exist')
 
-    const player = await Player.findOne({ user, game })
-    if (!player) throw new ForbiddenError(`You are not part of this game`)
-    if (game.status !== 'started')
-      throw new BadRequestError(`The game is not started yet`)
+      const player = await Player.findOne({ user, game })
 
-    if (player.id !== game.turn) throw new BadRequestError(`It's not your turn`)
+      if (!player) throw new ForbiddenError('You are not part of this game')
+      if (game.status !== 'started')
+        throw new BadRequestError('The game is not started yet')
 
-    const otherPlayerId = game.players.filter(p => p.id !== game.turn)[0].id
+      if (player.id !== game.turn)
+        throw new BadRequestError('It\'s not your turn')
 
-    if (game.board[position.rowIndex][position.columnIndex] !== null) {
-      throw new BadRequestError(`Invalid move`)
+      if (game.board[position.rowIndex][position.columnIndex] !== null) {
+        throw new BadRequestError('Invalid move')
+      }
+
+      game.board[position.rowIndex][position.columnIndex] =
+        game.generatedBoard[position.rowIndex][position.columnIndex]
+
+      player.point = calculatePoints(
+        player,
+        game.generatedBoard[position.rowIndex][position.columnIndex]
+      )
+      const playerIndex = game.players.findIndex(p => p.id === player.id)
+      game.players[playerIndex] = player
+
+      const otherPlayerId = game.players.filter(p => p.id !== game.turn)[0].id
+      game.turn = otherPlayerId!
+
+      await Promise.all([player.save(), game.save()])
+
+      io.emit('action', {
+        type: 'UPDATE_GAME',
+        payload: game
+      })
+      console.log('update')
+
+      return game
+    } catch (e) {
+      console.log(e)
     }
-
-    game.board[position.rowIndex][position.columnIndex] =
-      game.generatedBoard[position.rowIndex][position.columnIndex]
-    game.turn = otherPlayerId!
-
-    await game.save()
-
-    io.emit('action', {
-      type: 'UPDATE_GAME',
-      payload: game
-    })
-    console.log('update')
-
-    return game
   }
 
   @Authorized()

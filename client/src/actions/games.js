@@ -68,12 +68,11 @@ export const createGame = () => (dispatch, getState) => {
 }
 
 export const sendMoveInfo = (moveInfo, gameId) => (dispatch, getState) => {
+  console.log(moveInfo, gameId)
   const state = getState()
   const jwt = state.currentUser.jwt
 
   if (isExpired(jwt)) return dispatch(logout())
-
-  console.log(moveInfo, gameId)
 
   request
     .patch(`${baseUrl}/games/${gameId}`)

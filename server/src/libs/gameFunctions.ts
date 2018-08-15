@@ -1,7 +1,8 @@
-import { boardSetting } from '../games/gameSettings'
+import { boardSetting, specialSymbols } from '../games/gameSettings'
+import { Player } from '../games/entities'
 
-const { gridSize, normal, o, y, z } = boardSetting
-const specialSymbols = [o, y, z]
+const { gridSize, seaweed, octopus, fish, shark } = boardSetting
+const specialSymbol = [octopus, fish, shark]
 
 const shuffleArray = targetArr => {
   const arr = [...targetArr]
@@ -13,7 +14,7 @@ const shuffleArray = targetArr => {
 }
 
 const getArrayFilledWithSymbols = () => {
-  return specialSymbols
+  return specialSymbol
     .map(symbol => Array(symbol.amount).fill(symbol.symbol))
     .reduce((arr, symbolsArr) => arr.concat(symbolsArr))
 }
@@ -24,13 +25,13 @@ export const getRandomBoard = () => {
   //   .concat(Array(y.symbol).fill(y.symbol), Array(z.symbol).fill(z.symbol))
   const specialCharArr = getArrayFilledWithSymbols()
   const defaultArr = Array(gridSize * gridSize)
-    .fill(normal.symbol)
+    .fill(seaweed.symbol)
     .slice(0, -specialCharArr.length)
     .concat(specialCharArr)
 
   const shuffledArr = shuffleArray(defaultArr)
 
-  return [...Array(gridSize)].map((_, i) => {
+  return [...Array(gridSize)].map(() => {
     return shuffledArr.splice(0, gridSize)
   })
 }
@@ -39,3 +40,12 @@ export const getEmptyBoard = () =>
   [...Array(boardSetting.gridSize)].map(() => {
     return Array(boardSetting.gridSize).fill(null)
   })
+
+export const calculatePoints = (
+  player: Player,
+  character: specialSymbols
+): number => {
+  console.log(character)
+
+  return player.point + boardSetting[character].point
+}

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { getGames, joinGame } from '../../actions/games'
 import { getUsers } from '../../actions/users'
-import { userId } from '../../jwt'
+import { userId as getUserId } from '../../jwt'
 import Board from './Board'
 
 import Scoreboard from './Scoreboard'
@@ -13,66 +13,62 @@ import './GameDetails.css'
 class GameDetails extends PureComponent {
   componentWillMount() {
     if (this.props.authenticated) {
-      if (this.props.game === null) this.props.getGames()
+      if (this.props.currentGame === null) this.props.getGames()
       if (this.props.users === null) this.props.getUsers()
     }
   }
 
   joinGame = () => this.props.joinGame(this.props.game.id)
 
-  // makeMove = (toRow, toCell) => {
-  //   const {game, updateGame} = this.props
-
-  //   const board = game.board.map(
-  //     (row, rowIndex) => row.map((cell, cellIndex) => {
-  //       if (rowIndex === toRow && cellIndex === toCell) return game.turn
-  //       else return cell
-  //     })
-  //   )
-  //   updateGame(game.id, board)
-  // }
-
   render() {
-    const { game, users, authenticated, userId } = this.props
+    const {
+      currentGame,
+      users,
+      authenticated,
+      currentUserId,
+      currentPlayer
+    } = this.props
 
     if (!authenticated) return <Redirect to="/login" />
 
-    if (game === null || users === null) return 'Loading...'
-    if (!game) return 'Not found'
+    if (currentGame === null || users === null) return 'Loading...'
+    if (!currentGame) return 'Not found'
 
-    const player = game.players.find(p => p.userId === userId)
-
-    const winner = game.players
-      .filter(p => p.symbol === game.winner)
+    const winner = currentGame.players
+      .filter(p => p.symbol === currentGame.winner)
       .map(p => p.userId)[0]
 
     return (
       <div>
-        <h1>Game #{game.id}</h1>
+        <h1>Game #{currentGame.id}</h1>
 
-        <p>Status: {game.status}</p>
+        <p>Status: {currentGame.status}</p>
 
-        {game.status === 'started' &&
-          player &&
-          player.id === game.turn && <div>It's your turn!</div>}
+        {currentGame.status === 'started' &&
+          currentPlayer &&
+          currentPlayer.id === currentGame.turn && <div>It's your turn!</div>}
 
-        {game.status === 'pending' &&
-          game.players.map(p => p.userId).indexOf(userId) === -1 && (
-            <button onClick={this.joinGame}>Join Game</button>
-          )}
+        {currentGame.status === 'pending' &&
+          currentGame.players.map(p => p.userId).indexOf(currentUserId) ===
+            -1 && <button onClick={this.joinGame}>Join Game</button>}
 
         {winner && <p>Winner: {users[winner].firstName}</p>}
 
         <hr />
         <div className="page">
-          {game.status !== 'pending' && (
+          {currentGame.status !== 'pending' && (
             <Board
               currentGameId={this.props.match.params.id}
-              currentUserId={this.props.userId}
+              currentUserId={currentUserId}
+              currentGame={currentGame}
+              currentPlayer={currentPlayer}
             />
           )}
-          {game.status !== 'pending' && (
-            <Scoreboard game={this.props.game} users={this.props.users} />
+          {currentGame.status !== 'pending' && (
+            <Scoreboard
+              game={this.props.currentGame}
+              users={this.props.users}
+            />
           )}
         </div>
       </div>
@@ -80,13 +76,21 @@ class GameDetails extends PureComponent {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  authenticated: state.currentUser !== null,
-  userId: state.currentUser && userId(state.currentUser.jwt),
-  game: state.games && state.games[props.match.params.id],
-  users: state.users,
-  players: state.games && state.games[props.match.params.id].players
-})
+const mapStateToProps = (state, props) => {
+  const currentUserId = state.currentUser && getUserId(state.currentUser.jwt)
+  const currentGame = state.games && state.games[props.match.params.id]
+  return {
+    /// userd to fetch data when reloaded!
+    authenticated: state.currentUser !== null,
+    currentUserId,
+    users: state.users,
+    ////////////
+    currentGame,
+    currentPlayers: currentGame && currentGame.players,
+    currentPlayer:
+      currentGame && currentGame.players.find(p => p.userId === currentUserId)
+  }
+}
 
 const mapDispatchToProps = {
   getGames,

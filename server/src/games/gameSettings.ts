@@ -1,18 +1,29 @@
+// type specialSymbols = {
+//   amount: number
+//   symbol: 'O' | 'Y' | 'Z'
+//   point: number
+// }
+export type specialSymbols = 'normal' | 'O' | 'Y' | 'Z'
+
 export const boardSetting = {
   gridSize: 5,
-  normal: {
-    symbol: '-'
+  seaweed: {
+    symbol: 'seaweed',
+    point: 0
   },
-  o: {
+  octopus: {
     amount: 3,
-    symbol: 'O'
+    symbol: 'octopus',
+    point: -10
   },
-  y: {
+  fish: {
     amount: 3,
-    symbol: 'Y'
+    symbol: 'fish',
+    point: 10
   },
-  z: {
+  shark: {
     amount: 2,
-    symbol: 'Z'
+    symbol: 'shark',
+    point: 20
   }
 }

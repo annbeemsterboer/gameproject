@@ -15,6 +15,14 @@ import * as socketIoJwtAuth from 'socketio-jwt-auth'
 import { secret } from './jwt'
 
 const app = new Koa()
+
+app.use(async (ctx, next) => {
+  try {
+    await next()
+  } catch (e) {
+    console.log(e)
+  }
+})
 const server = new Server(app.callback())
 export const io = IO(server)
 const port = process.env.PORT || 4000

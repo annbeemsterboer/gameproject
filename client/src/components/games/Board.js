@@ -6,43 +6,42 @@ import './GameDetails.css'
 import rod from './assets/img/rod.png'
 
 import seaweed from './assets/img/seaweed.png'
-import normalFish from './assets/img/normalfish.png'
+import fish from './assets/img/normalfish.png'
 import sea from './assets/img/sea.png'
-import squid from './assets/img/squid.png'
+import octopus from './assets/img/squid.png'
 import shark from './assets/img/shark.jpg'
 
 const generateImageUrl = item => {
   switch (item) {
-    case null:
-      return sea
-
-    case '-':
+    case 'seaweed':
       return seaweed
-    case 'O':
-      return squid
-    case 'Y':
-      return normalFish
-    case 'Z':
+    case 'octopus':
+      return octopus
+    case 'fish':
+      return fish
+    case 'shark':
       return shark
+    default:
+      return sea
   }
 }
 
 class Board extends PureComponent {
-  makeMove = (rowIndex, columnIndex, playerId) => {
-    console.log(rowIndex, columnIndex, playerId)
+  makeMove = (rowIndex, columnIndex, gameId) => {
     this.props.sendMoveInfo(
       {
         rowIndex,
-        columnIndex,
-        jwt: playerId
+        columnIndex
       },
-      this.props.currentGameId
+      gameId
     )
   }
 
   render() {
-    const { currentGameId } = this.props
-    const currentGame = this.props.currentGame
+    const { currentGame, currentPlayer } = this.props
+
+    // console.log('turn', currentGame.turn)
+    // console.log('currentPlayer', currentPlayer)
 
     if (!currentGame.board) return 'fetching..'
 
@@ -53,19 +52,17 @@ class Board extends PureComponent {
             <div key={rowI} className="buttonRow">
               {row.map((column, columnI) => {
                 return (
-                  <span key={columnI}>
-                    <button
-                      className="button"
-                      style={{ cursor: `url(${rod}), auto` }}
-                      disabled={this.props.turn !== this.props.currentUserId}
-                      onClick={() =>
-                        this.makeMove(rowI, columnI, this.props.turn)
-                      }
-                      style={{
-                        backgroundImage: `url(${generateImageUrl(column)}`
-                      }}
-                    />
-                  </span>
+                  <button
+                    className="button"
+                    key={columnI}
+                    disabled={
+                      currentGame.turn !== currentPlayer.id || column !== null
+                    }
+                    onClick={() => this.makeMove(rowI, columnI, currentGame.id)}
+                    style={{
+                      backgroundImage: `url(${generateImageUrl(column)}`
+                    }}
+                  />
                 )
               })}
             </div>
@@ -78,10 +75,7 @@ class Board extends PureComponent {
 
 const mapStateToProps = (state, props) => {
   return {
-    currentUser: state.currentUser,
-    currentGame: state.games[props.currentGameId],
-    turn: state.games.turn
-    // games: state.games
+    currentGame: state.games[props.currentGameId]
   }
 }
 
