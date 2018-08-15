@@ -5,7 +5,9 @@ import { getGames, joinGame } from '../../actions/games'
 import { getUsers } from '../../actions/users'
 import { userId } from '../../jwt'
 import Board from './Board'
-import ScoreBoard from './Scoreboard'
+
+import Scoreboard from './Scoreboard'
+
 import './GameDetails.css'
 
 class GameDetails extends PureComponent {
@@ -70,7 +72,7 @@ class GameDetails extends PureComponent {
             />
           )}
           {game.status !== 'pending' && (
-            <ScoreBoard game={this.props.game} users={this.props.users} />
+            <Scoreboard game={this.props.game} users={this.props.users} />
           )}
         </div>
       </div>
