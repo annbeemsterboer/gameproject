@@ -5,6 +5,7 @@ import { getGames, joinGame } from '../../actions/games'
 import { getUsers } from '../../actions/users'
 import { userId } from '../../jwt'
 import Board from './Board'
+import ScoreBoard from './ScoreBoard'
 import './GameDetails.css'
 
 class GameDetails extends PureComponent {
@@ -30,9 +31,6 @@ class GameDetails extends PureComponent {
   // }
 
   render() {
-
-    console.log(this.props.match)
-
     const { game, users, authenticated, userId } = this.props
 
     if (!authenticated) return <Redirect to="/login" />
@@ -66,11 +64,11 @@ class GameDetails extends PureComponent {
         <hr />
         <div className="page">
           {game.status !== 'pending' && (
-
             <Board currentGameId={this.props.match.params.id} />
-
           )}
-          <div className="scoreboard">text div</div>
+          {game.status !== 'pending' && (
+            <ScoreBoard game={this.props.game} users={this.props.users} />
+          )}
         </div>
       </div>
     )
@@ -81,7 +79,8 @@ const mapStateToProps = (state, props) => ({
   authenticated: state.currentUser !== null,
   userId: state.currentUser && userId(state.currentUser.jwt),
   game: state.games && state.games[props.match.params.id],
-  users: state.users
+  users: state.users,
+  players: state.games && state.games[props.match.params.id].players
 })
 
 const mapDispatchToProps = {
