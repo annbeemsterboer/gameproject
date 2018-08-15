@@ -1,19 +1,61 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import './Board.css'
+import { connect } from 'react-redux'
+import { sendMoveInfo } from '../../actions/games'
 
-const renderCel = (makeMove, rowIndex, cellIndex, symbol, hasTurn) => {
-  return (
-    <button
-      className="board-tile"
-      disabled={hasTurn}
-      onClick={() => makeMove(rowIndex, cellIndex)}
-      key={`${rowIndex}-${cellIndex}`}
-    >{symbol || '-'}</button>
-  )
+const defaultbord = [
+  [null, null, null, null],
+  [null, null, null, null],
+  [null, null, null, null],
+  [null, null, null, null]
+]
+
+class Board extends PureComponent {
+  makeMove = (rowIndex, columnIndex, playerId) => {
+    console.log(rowIndex, columnIndex, playerId)
+    this.props.sendMoveInfo(
+      {
+        rowIndex,
+        columnIndex,
+        jwt: playerId
+      },
+      this.props.game.id
+    )
+  }
+
+  render() {
+    console.log(this.props.turn)
+    return defaultbord.map((row, rowI) => {
+      return (
+        <div>
+          {row.map((column, columnI) => {
+            return (
+              <span>
+                <button
+                  disabled={this.props.turn !== this.props.currentUser.id}
+                  onClick={() => this.makeMove(rowI, columnI, this.props.turn)}
+                >
+                  {columnI}
+                </button>
+              </span>
+            )
+          })}
+        </div>
+      )
+    })
+  }
 }
 
-export default ({board, makeMove}) => board.map((cells, rowIndex) =>
-  <div key={rowIndex}>
-    {cells.map((symbol, cellIndex) => renderCel(makeMove, rowIndex, cellIndex,symbol,false))}
-  </div>
-)
+const mapStateToProps = state => {
+  return {
+    currentUser: state.currentUser,
+    currentGame: state.currentGame,
+    turn: state.games.turn,
+    game: state.games
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { sendMoveInfo }
+)(Board)
