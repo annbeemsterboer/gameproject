@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom'
 import { getGames, joinGame } from '../../actions/games'
 import { getUsers } from '../../actions/users'
 import { userId } from '../../jwt'
-import Paper from 'material-ui/Paper'
 import Board from './Board'
 import './GameDetails.css'
 
