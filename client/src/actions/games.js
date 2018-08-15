@@ -1,13 +1,7 @@
 import * as request from 'superagent'
-import {
-  baseUrl
-} from '../constants'
-import {
-  logout
-} from './users'
-import {
-  isExpired
-} from '../jwt'
+import { baseUrl } from '../constants'
+import { logout } from './users'
+import { isExpired } from '../jwt'
 
 export const ADD_GAME = 'ADD_GAME'
 export const UPDATE_GAME = 'UPDATE_GAME'
@@ -33,7 +27,6 @@ const joinGameSuccess = () => ({
   type: JOIN_GAME_SUCCESS
 })
 
-
 export const getGames = () => (dispatch, getState) => {
   const state = getState()
   if (!state.currentUser) return null
@@ -48,7 +41,7 @@ export const getGames = () => (dispatch, getState) => {
     .catch(err => console.error(err))
 }
 
-export const joinGame = (gameId) => (dispatch, getState) => {
+export const joinGame = gameId => (dispatch, getState) => {
   const state = getState()
   const jwt = state.currentUser.jwt
 
@@ -58,7 +51,7 @@ export const joinGame = (gameId) => (dispatch, getState) => {
     .post(`${baseUrl}/games/${gameId}/players`)
     .set('Authorization', `Bearer ${jwt}`)
     .then(_ => dispatch(joinGameSuccess()))
-    .catch(err => console.error(err))
+    .catch(err => console.error(err.message))
 }
 
 export const createGame = () => (dispatch, getState) => {
@@ -74,9 +67,7 @@ export const createGame = () => (dispatch, getState) => {
     .catch(err => console.error(err))
 }
 
-export const sendMoveInfo = (
-  moveInfo, gameId) => (dispatch, getState) => {
-
+export const sendMoveInfo = (moveInfo, gameId) => (dispatch, getState) => {
   const state = getState()
   const jwt = state.currentUser.jwt
 

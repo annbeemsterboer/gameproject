@@ -46,7 +46,7 @@ class GameDetails extends PureComponent {
 
     return (
       <div>
-        {/* <h1>Game #{game.id}</h1>
+        <h1>Game #{game.id}</h1>
 
         <p>Status: {game.status}</p>
 
@@ -61,7 +61,7 @@ class GameDetails extends PureComponent {
 
         {winner && <p>Winner: {users[winner].firstName}</p>}
 
-        <hr /> */}
+        <hr />
         <div className="page">
           {game.status !== 'pending' && <Board />}
           <div className="scoreboard">text div</div>
