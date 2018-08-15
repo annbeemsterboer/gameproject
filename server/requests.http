@@ -99,3 +99,13 @@ Content-Type: application/json
   "email": "test@gmail.com",
   "password":"testtest"
 }
+###
+POST http://localhost:4000/users
+Content-Type: application/json
+
+{
+  "firstName":"another",
+  "lastName": "test",
+  "email": "asht@gmail.com",
+  "password":"ashtasht"
+}
