@@ -35,7 +35,7 @@
   height: 50x;
   width: 50px;
   padding: 30px;
-  background: url("https://cdn.iconscout.com/public/images/icon/premium/png-512/water-birds-sea-ocean-388044e387f3fa79-512x512.png") no-repeat;
+  /* background:  no-repeat; */
   background-size: 100% !important;
   background-position: center;
   margin: 3px

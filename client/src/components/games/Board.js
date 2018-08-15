@@ -4,12 +4,27 @@ import { connect } from 'react-redux'
 import { sendMoveInfo } from '../../actions/games'
 import './GameDetails.css'
 
-const defaultbord = [
-  [null, null, null, null],
-  [null, null, null, null],
-  [null, null, null, null],
-  [null, null, null, null]
-]
+import seaweed from './assets/img/seaweed.png'
+import normalFish from './assets/img/normalfish.png'
+import sea from './assets/img/sea.png'
+import squid from './assets/img/squid.png'
+import shark from './assets/img/shark.jpg'
+
+const generateImageUrl = item => {
+  switch (item) {
+    case null:
+      return sea
+
+    case '-':
+      return seaweed
+    case 'O':
+      return squid
+    case 'Y':
+      return normalFish
+    case 'Z':
+      return shark
+  }
+}
 
 class Board extends PureComponent {
   makeMove = (rowIndex, columnIndex, playerId) => {
@@ -20,20 +35,19 @@ class Board extends PureComponent {
         columnIndex,
         jwt: playerId
       },
-
       this.props.currentGameId
-
     )
   }
 
   render() {
-
     const { currentGameId } = this.props
-    if (!this.props.games[currentGameId].generatedBoard) return 'fetching..'
+    const currentGame = this.props.currentGame
+
+    if (!currentGame.board) return 'fetching..'
 
     return (
       <div className="buttonPad">
-        {defaultbord.map((row, rowI) => {
+        {currentGame.board.map((row, rowI) => {
           return (
             <div key={rowI} className="buttonRow">
               {row.map((column, columnI) => {
@@ -45,9 +59,10 @@ class Board extends PureComponent {
                       onClick={() =>
                         this.makeMove(rowI, columnI, this.props.turn)
                       }
-                    >
-                      {columnI}
-                    </button>
+                      style={{
+                        backgroundImage: `url(${generateImageUrl(column)}`
+                      }}
+                    />
                   </span>
                 )
               })}
@@ -62,9 +77,9 @@ class Board extends PureComponent {
 const mapStateToProps = (state, props) => {
   return {
     currentUser: state.currentUser,
-    currentGame: state.currentGame,
-    turn: state.games.turn,
-    games: state.games
+    currentGame: state.games[props.currentGameId],
+    turn: state.games.turn
+    // games: state.games
   }
 }
 
