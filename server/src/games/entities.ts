@@ -64,6 +64,6 @@ export class Player extends BaseEntity {
   @Column({ default: 0 })
   point: number
 
-  // @Column()
-  // userId: number
+  @Column()
+  userId: number
 }

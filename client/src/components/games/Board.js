@@ -20,13 +20,17 @@ class Board extends PureComponent {
         columnIndex,
         jwt: playerId
       },
+
       this.props.currentGameId
+
     )
   }
 
   render() {
+
     const { currentGameId } = this.props
     if (!this.props.games[currentGameId].generatedBoard) return 'fetching..'
+
     return (
       <div className="buttonPad">
         {defaultbord.map((row, rowI) => {
