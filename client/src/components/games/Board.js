@@ -3,6 +3,7 @@ import './Board.css'
 import { connect } from 'react-redux'
 import { sendMoveInfo } from '../../actions/games'
 import './GameDetails.css'
+import rod from './assets/img/rod.png'
 
 import seaweed from './assets/img/seaweed.png'
 import normalFish from './assets/img/normalfish.png'
@@ -55,7 +56,8 @@ class Board extends PureComponent {
                   <span key={columnI}>
                     <button
                       className="button"
-                      disabled={this.props.turn !== currentGameId}
+                      style={{ cursor: `url(${rod}), auto` }}
+                      disabled={this.props.turn !== this.props.currentUserId}
                       onClick={() =>
                         this.makeMove(rowI, columnI, this.props.turn)
                       }
