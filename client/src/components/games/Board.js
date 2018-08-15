@@ -13,7 +13,6 @@ const defaultbord = [
 
 class Board extends PureComponent {
   makeMove = (rowIndex, columnIndex, playerId) => {
-    console.log(rowIndex, columnIndex, playerId)
     this.props.sendMoveInfo(
       {
         rowIndex,
@@ -25,26 +24,31 @@ class Board extends PureComponent {
   }
 
   render() {
-    console.log(this.props.turn)
-    return defaultbord.map((row, rowI) => {
-      return (
-        <div>
-          {row.map((column, columnI) => {
-            return (
-              <span>
-                <button
-                  className="button"
-                  disabled={this.props.turn !== this.props.currentUser.id}
-                  onClick={() => this.makeMove(rowI, columnI, this.props.turn)}
-                >
-                  {columnI}
-                </button>
-              </span>
-            )
-          })}
-        </div>
-      )
-    })
+    return (
+      <div className="buttonPad">
+        {defaultbord.map((row, rowI) => {
+          return (
+            <div className="buttonRow">
+              {row.map((column, columnI) => {
+                return (
+                  <span>
+                    <button
+                      className="button"
+                      disabled={this.props.turn !== this.props.currentUser.id}
+                      onClick={() =>
+                        this.makeMove(rowI, columnI, this.props.turn)
+                      }
+                    >
+                      {columnI}
+                    </button>
+                  </span>
+                )
+              })}
+            </div>
+          )
+        })}
+      </div>
+    )
   }
 }
 
