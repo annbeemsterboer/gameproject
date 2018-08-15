@@ -1,7 +1,13 @@
 import * as request from 'superagent'
-import {baseUrl} from '../constants'
-import {logout} from './users'
-import {isExpired} from '../jwt'
+import {
+  baseUrl
+} from '../constants'
+import {
+  logout
+} from './users'
+import {
+  isExpired
+} from '../jwt'
 
 export const ADD_GAME = 'ADD_GAME'
 export const UPDATE_GAME = 'UPDATE_GAME'
@@ -68,16 +74,33 @@ export const createGame = () => (dispatch, getState) => {
     .catch(err => console.error(err))
 }
 
-export const updateGame = (gameId, board) => (dispatch, getState) => {
+export const sendMoveInfo = (
+  moveInfo, gameId) => (dispatch, getState) => {
+
   const state = getState()
   const jwt = state.currentUser.jwt
 
   if (isExpired(jwt)) return dispatch(logout())
-
   request
     .patch(`${baseUrl}/games/${gameId}`)
     .set('Authorization', `Bearer ${jwt}`)
-    .send({ board })
+    .send({
+      moveInfo
+    })
     .then(_ => dispatch(updateGameSuccess()))
     .catch(err => console.error(err))
 }
+
+// export const updateGame = (gameId, board) => (dispatch, getState) => {
+//   const state = getState()
+//   const jwt = state.currentUser.jwt
+
+//   if (isExpired(jwt)) return dispatch(logout())
+
+//   request
+//     .patch(`${baseUrl}/games/${gameId}`)
+//     .set('Authorization', `Bearer ${jwt}`)
+//     .send({ board })
+//     .then(_ => dispatch(updateGameSuccess()))
+//     .catch(err => console.error(err))
+// }
