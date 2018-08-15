@@ -30,11 +30,7 @@ class GameDetails extends PureComponent {
   // }
 
   render() {
-    // console.log(this.props)
-    console.log(this.props.game)
-
-    console.log(this.props.userId)
-
+    console.log(this.props.match)
     const { game, users, authenticated, userId } = this.props
 
     if (!authenticated) return <Redirect to="/login" />
@@ -67,7 +63,9 @@ class GameDetails extends PureComponent {
 
         <hr />
         <div className="page">
-          {game.status !== 'pending' && <Board />}
+          {game.status !== 'pending' && (
+            <Board currentGameId={this.props.match.params.id} />
+          )}
           <div className="scoreboard">text div</div>
         </div>
       </div>
