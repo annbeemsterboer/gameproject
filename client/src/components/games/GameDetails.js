@@ -64,11 +64,11 @@ class GameDetails extends PureComponent {
         <hr />
         <div className="page">
           {game.status !== 'pending' && (
-
             <Board currentGameId={this.props.match.params.id} />
-
           )}
-          {game.status !== 'pending' && <ScoreBoard game={this.props.game} />}
+          {game.status !== 'pending' && (
+            <ScoreBoard game={this.props.game} users={this.props.users} />
+          )}
         </div>
       </div>
     )
