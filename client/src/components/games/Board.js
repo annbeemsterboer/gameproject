@@ -13,19 +13,23 @@ const defaultbord = [
 
 class Board extends PureComponent {
   makeMove = (rowIndex, columnIndex, playerId) => {
+    console.log(rowIndex, columnIndex, playerId)
     this.props.sendMoveInfo(
       {
         rowIndex,
         columnIndex,
         jwt: playerId
       },
-      this.props.gameId
+
+      this.props.currentGameId
+
     )
   }
 
   render() {
-    const game = this.props.game[this.props.gameId]
-    console.log(game)
+
+    const { currentGameId } = this.props
+    if (!this.props.games[currentGameId].generatedBoard) return 'fetching..'
 
     return (
       <div className="buttonPad">
@@ -55,12 +59,13 @@ class Board extends PureComponent {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
     currentUser: state.currentUser,
     currentGame: state.currentGame,
     turn: state.games.turn,
-    game: state.games
+    games: state.games
+    // generatedBoard: state.games.generatedBoard
   }
 }
 
