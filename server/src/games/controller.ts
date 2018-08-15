@@ -18,11 +18,14 @@ import { IsBoard, isValidTransition, calculateWinner, finished } from './logic'
 import { Validate } from 'class-validator'
 import { io } from '../index'
 
-class GameUpdate {
-  @Validate(IsBoard, {
-    message: 'Not a valid board'
-  })
-  board: Board
+class updatedGameData {
+  // @Validate(IsBoard, {
+  //   message: 'Not a valid board'
+  // })
+  position: {
+    columnIndex: number
+    rowIndex: number
+  }
 }
 
 @JsonController()
@@ -95,41 +98,36 @@ export default class GameController {
   async updateGame(
     @CurrentUser() user: User,
     @Param('id') gameId: number,
-    @Body() position: GameUpdate
+    @Body() { position }: updatedGameData
   ) {
     const game = await Game.findOneById(gameId)
     if (!game) throw new NotFoundError('Game does not exist')
 
     const player = await Player.findOne({ user, game })
-    console.log(player)
+    if (!player) throw new ForbiddenError(`You are not part of this game`)
 
-    // if (!player) throw new ForbiddenError(`You are not part of this game`)
-    // if (game.status !== 'started')
-    //   throw new BadRequestError(`The game is not started yet`)
-    // if (player.symbol !== game.turn)
-    //   throw new BadRequestError(`It's not your turn`)
-    // if (!isValidTransition(player.symbol, game.board, update.board)) {
-    //   throw new BadRequestError(`Invalid move`)
-    // }
+    if (game.status !== 'started')
+      throw new BadRequestError(`The game is not started yet`)
+    if (player.id !== game.turn) throw new BadRequestError(`It's not your turn`)
 
-    // const winner = calculateWinner(update.board)
-    // if (winner) {
-    //   game.winner = winner
-    //   game.status = 'finished'
-    // } else if (finished(update.board)) {
-    //   game.status = 'finished'
-    // } else {
-    //   game.turn = player.symbol === 'x' ? 'o' : 'x'
-    // }
-    // game.board = update.board
-    // await game.save()
+    const otherPlayerId = game.players.filter(p => p.id !== game.turn)[0].id
 
-    // io.emit('action', {
-    //   type: 'UPDATE_GAME',
-    //   payload: game
-    // })
+    if (game.board[position.rowIndex][position.columnIndex] !== null) {
+      throw new BadRequestError(`Invalid move`)
+    }
 
-    return 'game'
+    game.board[position.rowIndex][position.columnIndex] =
+      game.generatedBoard[position.rowIndex][position.columnIndex]
+    game.turn = otherPlayerId!
+
+    await game.save()
+
+    io.emit('action', {
+      type: 'UPDATE_GAME',
+      payload: game
+    })
+
+    return game
   }
 
   @Authorized()

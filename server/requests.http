@@ -1,23 +1,42 @@
 http://localhost:4000/games/1
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MjcxNjA3LCJleHAiOjE1MzQyODYwMDd9.Z8eQXY6FFvI-EeRJSYS7TlJeBvfJccyR5jegtfmvEBQ
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MzEzMzAyLCJleHAiOjE1MzQzMjc3MDJ9.U_fU5IKsyB3U4Tuar4a8a4zx3e0KPWNXNU7OtGNGLEo
 
 ###
 http://localhost:4000/games
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MjcxNjA3LCJleHAiOjE1MzQyODYwMDd9.Z8eQXY6FFvI-EeRJSYS7TlJeBvfJccyR5jegtfmvEBQ
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MzEzMzAyLCJleHAiOjE1MzQzMjc3MDJ9.U_fU5IKsyB3U4Tuar4a8a4zx3e0KPWNXNU7OtGNGLEo
 
 
 ############ CREATE GAME ###############
 ### Hajime
 POST http://localhost:4000/games
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MjcxNjA3LCJleHAiOjE1MzQyODYwMDd9.Z8eQXY6FFvI-EeRJSYS7TlJeBvfJccyR5jegtfmvEBQ
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MzEzMzAyLCJleHAiOjE1MzQzMjc3MDJ9.U_fU5IKsyB3U4Tuar4a8a4zx3e0KPWNXNU7OtGNGLEo
 ############ UPDATE GAME ###############
-PATCH http://localhost:4000/games/1
+PATCH http://localhost:4000/games/2
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MjcxNjA3LCJleHAiOjE1MzQyODYwMDd9.Z8eQXY6FFvI-EeRJSYS7TlJeBvfJccyR5jegtfmvEBQ
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MzEzMzAyLCJleHAiOjE1MzQzMjc3MDJ9.U_fU5IKsyB3U4Tuar4a8a4zx3e0KPWNXNU7OtGNGLEo
 
+{
+  "gameId": 2,
+  "position":{
+    "rowIndex": 0,
+    "columnIndex": 1
+  } 
+}
+############ UPDATE GAME ###############
+PATCH http://localhost:4000/games/2
+Content-Type: application/json
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTM0MzIyNTc4LCJleHAiOjE1MzQzMzY5Nzh9.7dfziMNHO2Q7sqk7SeNjG267A6w8OPBO6t0iKDwTeFk
+
+{
+  "gameId": 2,
+  "position":{
+    "rowIndex": 3,
+    "columnIndex": 4
+  } 
+}
 ###
 ### Somebody
 POST http://localhost:4000/games
@@ -25,9 +44,9 @@ Content-Type: application/json
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTM0MjcyMDg5LCJleHAiOjE1MzQyODY0ODl9.FHZwwdQjbQUmew1S9jgeoJHLSsSZBRQfYCIsJUsEsHE
 
 ### Somebody
-POST http://localhost:4000/games/1/players
+POST http://localhost:4000/games/2/players
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTM0MjcyMDg5LCJleHAiOjE1MzQyODY0ODl9.FHZwwdQjbQUmew1S9jgeoJHLSsSZBRQfYCIsJUsEsHE
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTM0MzIyNTc4LCJleHAiOjE1MzQzMzY5Nzh9.7dfziMNHO2Q7sqk7SeNjG267A6w8OPBO6t0iKDwTeFk
 
 
 
@@ -50,14 +69,33 @@ Content-Type: application/json
   "email": "hajime.doublebass@gmail.com",
   "password":"testtest"
 }
+###
+
+POST http://localhost:4000/logins
+Content-Type: application/json
+
+{
+  "email": "test@gmail.com",
+  "password":"testtest"
+}
 
 ###
 POST http://localhost:4000/users
 Content-Type: application/json
 
 {
-  "firstName":"Somebody",
+  "firstName":"Hajime",
   "lastName": "Suzuki",
-  "email": "hajime.doublebasss@gmail.com",
+  "email": "hajime.doublebass@gmail.com",
+  "password":"testtest"
+}
+###
+POST http://localhost:4000/users
+Content-Type: application/json
+
+{
+  "firstName":"Test",
+  "lastName": "somebody",
+  "email": "test@gmail.com",
   "password":"testtest"
 }

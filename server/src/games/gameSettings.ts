@@ -4,15 +4,15 @@ export const boardSetting = {
     symbol: '-'
   },
   o: {
-    amount: 4,
+    amount: 3,
     symbol: 'O'
   },
   y: {
-    amount: 4,
+    amount: 3,
     symbol: 'Y'
   },
   z: {
-    amount: 10,
+    amount: 2,
     symbol: 'Z'
   }
 }
