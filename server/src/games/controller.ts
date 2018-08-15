@@ -35,16 +35,29 @@ export default class GameController {
   @HttpCode(201)
   async createGame(@CurrentUser() user: Partial<User>) {
     console.log('post gaems')
-    const entity = await Game.create({
-      turn: user.id
-    }).save()
+    // const entity = await Game.create({
+    //   turn: user.id
+    // })
+
+    // const player = await Player.create({
+    //   game: entity,
+    //   user
+    // })
 
     const player = await Player.create({
-      game: entity,
       user
     }).save()
 
-    const game = await Game.findOneById(entity.id)
+    const gameEntity = await Game.create({
+      turn: player.id
+    }).save()
+
+    player.game = gameEntity
+    console.log(player)
+
+    await player.save()
+
+    const game = await Game.findOneById(gameEntity.id)
 
     const { generatedBoard, ...data } = game
 
@@ -63,8 +76,6 @@ export default class GameController {
     @CurrentUser() user: Partial<User>,
     @Param('id') gameId: number
   ) {
-    console.log(user)
-
     const game = await Game.findOneById(gameId)
     if (!game) throw new BadRequestError('Game does not exist')
     if (game.status !== 'pending')
@@ -100,14 +111,16 @@ export default class GameController {
     @Param('id') gameId: number,
     @Body() { position }: updatedGameData
   ) {
+    console.log('=================', Date.now())
+
     const game = await Game.findOneById(gameId)
     if (!game) throw new NotFoundError('Game does not exist')
 
     const player = await Player.findOne({ user, game })
     if (!player) throw new ForbiddenError(`You are not part of this game`)
-
     if (game.status !== 'started')
       throw new BadRequestError(`The game is not started yet`)
+
     if (player.id !== game.turn) throw new BadRequestError(`It's not your turn`)
 
     const otherPlayerId = game.players.filter(p => p.id !== game.turn)[0].id
@@ -126,6 +139,7 @@ export default class GameController {
       type: 'UPDATE_GAME',
       payload: game
     })
+    console.log('update')
 
     return game
   }
@@ -141,7 +155,9 @@ export default class GameController {
 
   @Authorized()
   @Get('/games')
-  getGames() {
-    return Game.find()
+  async getGames() {
+    const games = await Game.find()
+    console.log(games[0].players)
+    return games
   }
 }

@@ -19,19 +19,22 @@ class Board extends PureComponent {
         columnIndex,
         jwt: playerId
       },
-      this.props.game.id
+      this.props.gameId
     )
   }
 
   render() {
+    const game = this.props.game[this.props.gameId]
+    console.log(game)
+
     return (
       <div className="buttonPad">
         {defaultbord.map((row, rowI) => {
           return (
-            <div className="buttonRow">
+            <div className="buttonRow" key={rowI}>
               {row.map((column, columnI) => {
                 return (
-                  <span>
+                  <span key={columnI}>
                     <button
                       className="button"
                       disabled={this.props.turn !== this.props.currentUser.id}
