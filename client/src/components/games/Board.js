@@ -31,13 +31,13 @@ class Board extends PureComponent {
       <div className="buttonPad">
         {defaultbord.map((row, rowI) => {
           return (
-            <div className="buttonRow">
+            <div key={rowI} className="buttonRow">
               {row.map((column, columnI) => {
                 return (
-                  <span>
+                  <span key={columnI}>
                     <button
                       className="button"
-                      disabled={this.props.turn !== this.props.currentUser.id}
+                      disabled={this.props.turn !== currentGameId}
                       onClick={() =>
                         this.makeMove(rowI, columnI, this.props.turn)
                       }
@@ -61,7 +61,6 @@ const mapStateToProps = (state, props) => {
     currentGame: state.currentGame,
     turn: state.games.turn,
     games: state.games
-    // generatedBoard: state.games.generatedBoard
   }
 }
 
