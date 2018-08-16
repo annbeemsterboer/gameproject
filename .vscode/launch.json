@@ -7,11 +7,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "プログラムの起動",
+      "name": "debug start",
       "program": "${workspaceFolder}/server\\src\\games\\controller.ts",
-      "outFiles": [
-        "${workspaceFolder}/**/*.js"
-      ]
+      "outFiles": ["${workspaceFolder}/**/*.js"]
     }
   ]
 }
