@@ -6,9 +6,7 @@ import { getUsers } from '../../actions/users'
 import { userId as getUserId } from '../../jwt'
 import Board from './Board'
 import InfoModal from './InfoModal'
-
 import Scoreboard from './Scoreboard'
-
 import './GameDetails.css'
 
 class GameDetails extends PureComponent {
@@ -34,10 +32,6 @@ class GameDetails extends PureComponent {
 
     if (currentGame === null || users === null) return 'Loading...'
     if (!currentGame) return 'Not found'
-
-    // const winner = currentGame.players
-    //   .filter(p => p.symbol === currentGame.winner)
-    //   .map(p => p.userId)[0]
 
     return (
       <div className="body">
