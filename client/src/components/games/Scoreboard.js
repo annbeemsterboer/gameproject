@@ -21,7 +21,7 @@ const Scoreboard = props => {
   } else if (props.game.winner) {
     const game = props.game
     const winnerId = Number(game.winner)
-    console.log(winnerId)
+    // console.log(winnerId)
     const winnerUserId = game.players.find(p => p.id === winnerId).userId
     winnerName = props.users[winnerUserId].firstName
   }
@@ -33,7 +33,7 @@ const Scoreboard = props => {
       <div className="players">
         <h1> The fishers: </h1>
 
-        {props.game.players.map(player => {
+        {props.game.players.sort((a, b) => a.id - b.id).map(player => {
           const p = Object.values(props.users).find((plyr, i) => {
             return player.userId === plyr.id
           })

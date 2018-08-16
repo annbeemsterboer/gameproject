@@ -43,9 +43,12 @@ export const getEmptyBoard = () =>
 
 export const calculatePoints = (
   player: Player,
-  character: specialSymbols
+  character: specialSymbols,
+  isSharkBeaten: boolean
 ): number => {
   console.log(character, boardSetting.characters[character].point)
-
+  if (character === 'shark' && isSharkBeaten === false) {
+    return player.point - boardSetting.characters[character].point
+  }
   return player.point + boardSetting.characters[character].point
 }

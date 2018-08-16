@@ -2,18 +2,40 @@ import React, { Component } from 'react'
 import shark from './assets/img/shark.jpg'
 import styled, { keyframes } from 'styled-components'
 
-const iconSize = 100
+const iconSize = 70
+
+const posAbs = ` 
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+`
+
 
 const letterAnimation = keyframes`
   from{
-    font-size: 200px
-    opacity: 1
+    font-size: 200px;
+    opacity: 1;
   }
   to{
-    font-size: 170px
-    opacity: 0
+    font-size: 130px;
+    opacity: 0;
   }
 `
+
+const slideFadeIn = keyframes`
+  from{
+    opacity:0;
+    transform: rotate(-45deg)
+  }
+  to{
+    opacity: 1;
+    transform: rotate(675deg)
+  }
+`
+
 const StyledShark = styled.div`
   width: ${iconSize}px;
   height: ${iconSize}px;
@@ -25,12 +47,18 @@ const StyledShark = styled.div`
   background-size: cover;
 `
 
+const ResultMessage = styled.h1`
+  ${posAbs};
+  height: 1em;
+  font-size: 200px;
+  animation: ${slideFadeIn} 0.5s ease-in-out forwards;
+`
+
 const SharkModal = styled.div`
   width: 100vw;
   height: 100vh;
-  position: relative;
   background-color: rgb(255, 0, 0, 0.8);
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 9000;
@@ -41,36 +69,40 @@ const SharkModal = styled.div`
     text-align: center;
   }
   .timer {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+    ${posAbs};
     width: 50px;
-    height: 50px;
+    height: 1em;
     animation: ${letterAnimation} 1s linear 7;
   }
 `
 
 class Shark extends Component {
   state = {
-    show: false,
-    started: false,
-    count: 3,
+    count: 5,
     position: {
       top: window.innerHeight / 4,
       left: window.innerWidth / 4
     },
-    timer: 5
+    timer: 5,
+    isBeaten: null
+  }
+
+  makeMove = () => {
+    if (this.state.isBeaten === null) return
+
+    this.props.makeMove(
+      this.props.position.rowIndex,
+      this.props.position.columnIndex,
+      this.state.isBeaten
+    )
   }
   componentDidMount() {
-    this.setState({ started: true })
     setTimeout(() => {
-      if (this.state.count > 0) {
-        this.setState({ message: 'lose!', started: false })
+      if (this.state.count > 0 && !this.state.isBeaten) {
+        this.setState({ message: 'LOSE!', isBeaten: false })
       }
-    }, 5000)
+    }, this.state.timer * 1000)
+
     const timer = setInterval(() => {
       this.setState(
         ({ timer }) => ({
@@ -102,32 +134,45 @@ class Shark extends Component {
       }),
       () => {
         if (this.state.count === 0) {
-          this.setState({ message: 'win!', started: false })
+          this.setState({ message: 'WIN!', isBeaten: true })
           clearTimeout()
         }
       }
     )
   }
   render() {
+    let messageAndTimer
+    if (!this.state.message) {
+      messageAndTimer = (
+        <div>
+          <h1>Click the Shark {this.state.count} Times!</h1>
+          <h2 className="timer">{this.state.timer}</h2>
+        </div>
+      )
+    }
     return (
-      <SharkModal>
-        <h1>Click the Shark!</h1>
+      <SharkModal onClick={this.makeMove}>
+        {/* {this.state.message ? (
+          
+        ) : null}
+        {this.state.message ? (
+          <ResultMessage>{this.state.message}</ResultMessage>
+        ) : null}
         <h2 className="timer">
           {this.state.timer !== 0 ? this.state.timer : null}
-        </h2>
+        </h2> */}
 
-        <StyledShark
-          position={this.state.position}
-          onClick={this.generateSharkPosition}
-        >
-          {this.state.count}
-          {this.state.message}
-          <br />
-          {this.state.windowSizeX}
-          <br />
+        {messageAndTimer}
 
-          {this.state.windowSizeY}
-        </StyledShark>
+        {this.state.isBeaten !== null ? (
+          <ResultMessage>{this.state.message}</ResultMessage>
+        ) : null}
+        {this.state.isBeaten === null ? (
+          <StyledShark
+            position={this.state.position}
+            onClick={this.generateSharkPosition}
+          />
+        ) : null}
       </SharkModal>
     )
   }

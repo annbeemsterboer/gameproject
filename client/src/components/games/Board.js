@@ -5,26 +5,30 @@ import { sendMoveInfo } from '../../actions/games'
 import './GameDetails.css'
 import generateImageUrl from './libs/generateImageUrl'
 import SharkChase from './assets/img/SharkChase.png'
+import Shark from './Shark'
 
 class Board extends PureComponent {
-  makeMove = (rowIndex, columnIndex, gameId) => {
+  makeMove = (rowIndex, columnIndex, isSharkBeaten) => {
+    console.log(rowIndex, isSharkBeaten)
+
     this.props.sendMoveInfo(
       {
         rowIndex,
         columnIndex
       },
-      gameId
+      this.props.currentGameId,
+      isSharkBeaten
     )
   }
 
   render() {
     const { currentGame, currentPlayer } = this.props
-    console.log(currentGame)
-    console.log(currentPlayer)
+    // console.log(currentGame)
+    // console.log(currentPlayer)
     if (!currentGame.board) return 'fetching..'
 
     if (
-      currentGame.turn === currentPlayer.id &&
+      currentGame.turn !== currentPlayer.id &&
       currentGame.character === 'shark'
     ) {
       return (
@@ -37,21 +41,25 @@ class Board extends PureComponent {
 
     return (
       <div>
+        {console.log(currentGame) || currentGame.character === 'shark' ? (
+          <Shark
+            makeMove={this.makeMove}
+            position={currentGame.previousPosition}
+          />
+        ) : null}
         <div className="buttonPad">
-          {currentGame.board.map((row, rowI) => {
+          {currentGame.board.map((row, rowIndex) => {
             return (
-              <div key={rowI} className="buttonRow">
-                {row.map((column, columnI) => {
+              <div key={rowIndex} className="buttonRow">
+                {row.map((column, columenIndex) => {
                   return (
                     <button
                       className="button"
-                      key={columnI}
+                      key={columenIndex}
                       disabled={
                         currentGame.turn !== currentPlayer.id || column !== null
                       }
-                      onClick={() =>
-                        this.makeMove(rowI, columnI, currentGame.id)
-                      }
+                      onClick={() => this.makeMove(rowIndex, columenIndex)}
                       style={{
                         backgroundImage: `url(${generateImageUrl(column)}`
                       }}
