@@ -1,33 +1,33 @@
 http://localhost:4000/games/1
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MzU5MzAxLCJleHAiOjE1MzQzNzM3MDF9.nCr81IRP4cMd00ctxv4StIKW74JGqT6ec3zYxljE9Jc
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDA3MjM1LCJleHAiOjE1MzQ0MjE2MzV9.ukmjASayO7noNi7uPg9c-dWXrGWtyQ3idnj4ts9gkuE
 
 ###
 http://localhost:4000/games
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MzU5MzAxLCJleHAiOjE1MzQzNzM3MDF9.nCr81IRP4cMd00ctxv4StIKW74JGqT6ec3zYxljE9Jc
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDA3MjM1LCJleHAiOjE1MzQ0MjE2MzV9.ukmjASayO7noNi7uPg9c-dWXrGWtyQ3idnj4ts9gkuE
 
 
 ############ CREATE GAME ###############
 ### Hajime
 POST http://localhost:4000/games
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MzU5MzAxLCJleHAiOjE1MzQzNzM3MDF9.nCr81IRP4cMd00ctxv4StIKW74JGqT6ec3zYxljE9Jc
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDA3MjM1LCJleHAiOjE1MzQ0MjE2MzV9.ukmjASayO7noNi7uPg9c-dWXrGWtyQ3idnj4ts9gkuE
 ############ UPDATE GAME ###############
-PATCH http://localhost:4000/games/32
+PATCH http://localhost:4000/games/25
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0MzU5MzAxLCJleHAiOjE1MzQzNzM3MDF9.nCr81IRP4cMd00ctxv4StIKW74JGqT6ec3zYxljE9Jc
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDA3MjM1LCJleHAiOjE1MzQ0MjE2MzV9.ukmjASayO7noNi7uPg9c-dWXrGWtyQ3idnj4ts9gkuE
 
 {
   "position":{
     "rowIndex": 0,
-    "columnIndex": 0
+    "columnIndex": 4
   } 
 }
 ############ UPDATE GAME ###############
 PATCH http://localhost:4000/games/29
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTM0MzM5NTMxLCJleHAiOjE1MzQzNTM5MzF9.LSehddQmeUSGD7CwtI3Zhs42Jj4VF41flE1Hwvvn0_o
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTM0NDExNjkwLCJleHAiOjE1MzQ0MjYwOTB9.OHI3Oc2Y_uRWE2k_O-FwbKlgk7tZYLi0nRm4UHqngZw
 
 {
   "gameId": 2,
@@ -43,9 +43,9 @@ Content-Type: application/json
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTM0MzU5MzM4LCJleHAiOjE1MzQzNzM3Mzh9.HD2mJTM0qL97AOTVPSJTINsrO3kWJzaPWZnJfHRLlvQ
 
 ### Somebody
-POST http://localhost:4000/games/32/players
+POST http://localhost:4000/games/25/players
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTM0MzU5MzM4LCJleHAiOjE1MzQzNzM3Mzh9.HD2mJTM0qL97AOTVPSJTINsrO3kWJzaPWZnJfHRLlvQ
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTM0NDExNjkwLCJleHAiOjE1MzQ0MjYwOTB9.OHI3Oc2Y_uRWE2k_O-FwbKlgk7tZYLi0nRm4UHqngZw
 
 
 

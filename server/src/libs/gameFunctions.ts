@@ -1,7 +1,7 @@
 import { boardSetting, specialSymbols } from '../games/gameSettings'
 import { Player } from '../games/entities'
-
-const { gridSize, seaweed, octopus, fish, shark } = boardSetting
+const { gridSize } = boardSetting
+const { seaweed, octopus, fish, shark } = boardSetting.characters
 const specialSymbol = [octopus, fish, shark]
 
 const shuffleArray = targetArr => {
@@ -45,7 +45,5 @@ export const calculatePoints = (
   player: Player,
   character: specialSymbols
 ): number => {
-  console.log(character)
-
-  return player.point + boardSetting[character].point
+  return player.point + boardSetting.characters[character].point
 }

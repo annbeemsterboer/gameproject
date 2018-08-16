@@ -6,7 +6,8 @@ import {
   Index,
   OneToMany,
   ManyToOne,
-  BeforeInsert
+  BeforeInsert,
+  ManyToMany
 } from 'typeorm'
 import User from '../users/entity'
 import { getRandomBoard, getEmptyBoard } from '../libs/gameFunctions'
@@ -29,11 +30,11 @@ export class Game extends BaseEntity {
   @Column('json')
   generatedBoard
 
-  @Column('int')
+  @Column('int', { nullable: true })
   turn: number
 
-  @Column('char', { length: 1, nullable: true })
-  winner: Symbol
+  @Column('char', { nullable: true })
+  winner: string
 
   @Column('text', { default: 'pending' })
   status: Status
@@ -42,6 +43,9 @@ export class Game extends BaseEntity {
   // http://typeorm.io/#/many-to-one-one-to-many-relations
   @OneToMany(_ => Player, player => player.game, { eager: true })
   players: Player[]
+
+  @OneToMany(_ => Character, character => character.game, { eager: true })
+  characters: Character[]
 
   @BeforeInsert()
   getRandomBoard() {
@@ -66,4 +70,19 @@ export class Player extends BaseEntity {
 
   @Column()
   userId: number
+}
+
+@Entity()
+export class Character extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number
+
+  @Column({ nullable: true })
+  name: string
+
+  @ManyToOne(_ => Game, game => game.characters)
+  game: Game
+
+  @Column({ default: 0 })
+  count: number
 }

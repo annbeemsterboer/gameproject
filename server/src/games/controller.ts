@@ -13,11 +13,13 @@ import {
   Patch
 } from 'routing-controllers'
 import User from '../users/entity'
-import { Game, Player, Board } from './entities'
+import { Game, Player, Board, Character } from './entities'
 import { IsBoard, isValidTransition, calculateWinner, finished } from './logic'
 import { Validate } from 'class-validator'
 import { io } from '../index'
 import { calculatePoints } from '../libs/gameFunctions'
+import { boardSetting } from './gameSettings'
+import launch from '../../../.vscode/launch.json'
 
 class updatedGameData {
   // @Validate(IsBoard, {
@@ -36,32 +38,37 @@ export default class GameController {
   @HttpCode(201)
   async createGame(@CurrentUser() user: Partial<User>) {
     console.log('post gaems')
-    // const entity = await Game.create({
-    //   turn: user.id
-    // })
 
-    // const player = await Player.create({
-    //   game: entity,
-    //   user
-    // })
+    const gameEntity = await Game.create().save()
 
-    const player = await Player.create({
-      user
-    }).save()
+    // add characters
+    const characters = Object.values(boardSetting.characters)
+      .filter(character => character.amount)
+      .map(character => {
+        return Character.create({
+          game: gameEntity,
+          name: character.symbol,
+          count: character.amount
+        })
+      })
 
-    const gameEntity = await Game.create({
-      turn: player.id
-    }).save()
+    // save characters and palyer
+    const [player] = await Promise.all([
+      Player.create({
+        user,
+        game: gameEntity
+      }).save(),
+      Character.save(characters)
+    ])
 
-    player.game = gameEntity
-    console.log(player)
+    gameEntity.turn = player.id!
 
-    await player.save()
-
+    await gameEntity.save()
     const game = await Game.findOneById(gameEntity.id)
 
     const { generatedBoard, ...data } = game
 
+    console.log(game!.characters)
     io.emit('action', {
       type: 'ADD_GAME',
       payload: data
@@ -113,7 +120,6 @@ export default class GameController {
     @Body() { position }: updatedGameData
   ) {
     console.log('=================', Date.now())
-    // console.log(user)
     try {
       const game = await Game.findOneById(gameId)
 
@@ -126,34 +132,70 @@ export default class GameController {
         throw new BadRequestError('The game is not started yet')
 
       if (player.id !== game.turn)
-        throw new BadRequestError('It\'s not your turn')
+        throw new BadRequestError("It's not your turn")
 
       if (game.board[position.rowIndex][position.columnIndex] !== null) {
         throw new BadRequestError('Invalid move')
       }
 
-      game.board[position.rowIndex][position.columnIndex] =
+      // fetch item from the generated board
+      const character =
         game.generatedBoard[position.rowIndex][position.columnIndex]
 
-      player.point = calculatePoints(
-        player,
-        game.generatedBoard[position.rowIndex][position.columnIndex]
-      )
+      // update board with the character
+      game.board[position.rowIndex][position.columnIndex] = character
+
+      //update remainig count
+      if (character !== 'seaweed') {
+        const fishCharacter = await Character.findOne({ name: character, game })
+        if (!fishCharacter) throw new Error('invalid character')
+        if (fishCharacter.count !== 0) {
+          fishCharacter.count -= 1
+          await fishCharacter.save()
+        }
+      }
+      // add/subtract points accordingly
+      player.point = calculatePoints(player, character)
+      // set the player to the game before updating the points
       const playerIndex = game.players.findIndex(p => p.id === player.id)
       game.players[playerIndex] = player
 
+      // change turn
       const otherPlayerId = game.players.filter(p => p.id !== game.turn)[0].id
       game.turn = otherPlayerId!
 
-      await Promise.all([player.save(), game.save()])
+      //update
+      // await Promise.all([player.save(), game.save()])
+      let updatedGame = await Game.findOneById(game.id)
+      if (!updatedGame) throw new NotFoundError('no game found')
+
+      // calculate winner
+      const total = updatedGame.characters.reduce(
+        (total, character) => (total += character.count),
+        0
+      )
+      const sortedPlayers = updatedGame.players.sort(
+        (a, b) => b.point - a.point
+      )
+      if (total <= 0) {
+        if (sortedPlayers[0].point === sortedPlayers[1].point) {
+          updatedGame.winner = 'draw'
+        } else {
+          updatedGame.winner = String(sortedPlayers[0].id)
+        }
+
+        updatedGame = await updatedGame.save()
+      }
+
+      console.log(updatedGame.winner)
 
       io.emit('action', {
         type: 'UPDATE_GAME',
-        payload: game
+        payload: updatedGame
       })
       console.log('update')
 
-      return game
+      return updatedGame
     } catch (e) {
       console.log(e)
     }
