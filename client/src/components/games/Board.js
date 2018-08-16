@@ -23,15 +23,16 @@ class Board extends PureComponent {
     console.log(currentPlayer)
     if (!currentGame.board) return 'fetching..'
 
-    if (currentGame.turn === currentPlayer.id) {
-      if (currentGame.character === 'shark') {
-        return (
-          <div>
-            <p>YOUR OPPONENT IS BEING CHASED BY A SHARK!</p>
-            <img src={SharkChase} />
-          </div>
-        )
-      }
+    if (
+      currentGame.turn === currentPlayer.id &&
+      currentGame.character === 'shark'
+    ) {
+      return (
+        <div>
+          <p>YOUR OPPONENT IS BEING CHASED BY A SHARK!</p>
+          <img src={SharkChase} />
+        </div>
+      )
     }
 
     return (
