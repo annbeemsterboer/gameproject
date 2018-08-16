@@ -1,9 +1,19 @@
 import React, { Component } from 'react'
 import shark from './assets/img/shark.jpg'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 const iconSize = 100
 
+const letterAnimation = keyframes`
+  from{
+    font-size: 200px
+    opacity: 1
+  }
+  to{
+    font-size: 170px
+    opacity: 0
+  }
+`
 const StyledShark = styled.div`
   width: ${iconSize}px;
   height: ${iconSize}px;
@@ -26,6 +36,17 @@ const SharkModal = styled.div`
   z-index: 9000;
   padding: 0;
   margin: 0;
+  h1 {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    animation: ${letterAnimation} 1s linear 7;
+  }
 `
 
 class Shark extends Component {
@@ -37,8 +58,7 @@ class Shark extends Component {
       top: 10,
       left: 0
     },
-    windowSizeX: window.innerWidth,
-    windowSizeY: window.innerHeight
+    timer: 5
   }
   componentDidMount() {
     this.setState({ started: true })
@@ -47,16 +67,26 @@ class Shark extends Component {
         this.setState({ message: 'lose!', started: false })
       }
     }, 5000)
+    const timer = setInterval(() => {
+      this.setState(
+        ({ timer }) => ({
+          timer: timer - 1
+        }),
+        () => {
+          if (this.state.timer === 0) clearInterval(timer)
+        }
+      )
+    }, 1000)
   }
 
   generateSharkPosition = () => {
-    if (!this.state.started) return
+    // if (!this.state.started) return
 
     const randomX = Math.floor(Math.random() * window.innerWidth - iconSize)
 
+    // need to change it
     const randomY =
-      Math.floor(Math.random() * window.innerHeight - iconSize - iconSize / 2) +
-      iconSize / 2
+      Math.floor(Math.random() * window.innerHeight - iconSize - 200) + 200
 
     this.setState(
       ({ count }) => ({
@@ -78,6 +108,7 @@ class Shark extends Component {
     if (this.props.show !== true) return null
     return (
       <SharkModal>
+        <h1>{this.state.timer !== 0 ? this.state.timer : null}</h1>
         <StyledShark
           position={this.state.position}
           onClick={this.generateSharkPosition}

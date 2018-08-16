@@ -11,10 +11,18 @@ const StyledImgContainer = styled.div`
     width: 50px;
     height: 50px;
     margin: 0 10px;
+    :hover {
+      display: none;
+    }
   }
 `
 
 const Scoreboard = props => {
+  // const game = props.game
+  // const winnerId = Number(game.winner)
+  // const winnerUserId = game.players.find(p => p.id === winnerId).userId
+  // const winnerName = props.users[winnerUserId].firstName
+
   // console.log(props.game)
   return (
     <div className="scoreboard">
@@ -34,7 +42,8 @@ const Scoreboard = props => {
             </div>
           )
         })}
-
+        {/* {console.log(props.game.players.find(p => p.id == props.game.winner))} */}
+        {/* {Object.values(props.users).find(user => user.id)} */}
         <StyledImgContainer>
           {props.game.characters.map(character => {
             return (
