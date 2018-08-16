@@ -15,17 +15,11 @@ export default class InfoModal extends React.Component {
     }
 
     this.openModal = this.openModal.bind(this)
-    this.afterOpenModal = this.afterOpenModal.bind(this)
     this.closeModal = this.closeModal.bind(this)
   }
 
   openModal() {
     this.setState({ modalIsOpen: true })
-  }
-
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    // this.subtitle.style.color = '#f00'
   }
 
   closeModal() {
@@ -40,7 +34,6 @@ export default class InfoModal extends React.Component {
         </button>
         <Modal
           isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           className="modal"
           contentLabel="Example Modal"
@@ -71,14 +64,6 @@ export default class InfoModal extends React.Component {
               Get Fishing!
             </button>
           </div>
-
-          {/* <form>
-            <input />
-            <button>tab navigation</button>
-            <button>stays</button>
-            <button>inside</button>
-            <button>the modal</button>
-          </form> */}
         </Modal>
       </div>
     )

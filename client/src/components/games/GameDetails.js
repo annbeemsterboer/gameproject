@@ -40,7 +40,7 @@ class GameDetails extends PureComponent {
     //   .map(p => p.userId)[0]
 
     return (
-      <div>
+      <div className="body">
         <h1>Game #{currentGame.id}</h1>
 
         <p>Status: {currentGame.status}</p>
@@ -51,7 +51,14 @@ class GameDetails extends PureComponent {
 
         {currentGame.status === 'pending' &&
           currentGame.players.map(p => p.userId).indexOf(currentUserId) ===
-            -1 && <button onClick={this.joinGame}>Join Game</button>}
+            -1 && (
+            <button
+              style={{ backgroundColor: '#d6e3e0' }}
+              onClick={this.joinGame}
+            >
+              Join Game
+            </button>
+          )}
 
         {/* {currentGame.winner && <p>Winner: {users[winner].firstName}</p>} */}
         <InfoModal />

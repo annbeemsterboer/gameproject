@@ -27,6 +27,10 @@
   justify-content: flex-start;
 }
 
+.body {
+  font-family: 'Inconsolata', monospace !important;
+}
+
 .score {
   display: flex;
   justify-content: right
