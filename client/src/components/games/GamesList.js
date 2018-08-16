@@ -27,7 +27,10 @@ class GamesList extends PureComponent {
             This game is played by&nbsp;
             {game.players
               .map(player => {
-                return users[player.userId].firstName
+                // console.log(game)
+                // console.log(users)
+                // console.log(player)
+                // return users[player.id].firstName
               })
               .join(' and ')}
           </Typography>
@@ -38,6 +41,7 @@ class GamesList extends PureComponent {
         </CardContent>
         <CardActions>
           <Button
+            style={{ backgroundColor: '#d6e3e0' }}
             size="small"
             onClick={() => history.push(`/games/${game.id}`)}
           >
@@ -56,9 +60,9 @@ class GamesList extends PureComponent {
     if (users === null) return null
 
     return (
-      <Paper className="outer-paper">
+      <Paper className="outer-paper" style={{ font: 'Inconsolata' }}>
         <Button
-          color="primary"
+          style={{ backgroundColor: '#d6e3e0' }}
           variant="raised"
           onClick={createGame}
           className="create-game"

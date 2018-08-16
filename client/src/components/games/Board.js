@@ -3,8 +3,8 @@ import './Board.css'
 import { connect } from 'react-redux'
 import { sendMoveInfo } from '../../actions/games'
 import './GameDetails.css'
-import InfoModal from './InfoModal'
 import generateImageUrl from './libs/generateImageUrl'
+import SharkChase from './assets/img/SharkChase.png'
 
 class Board extends PureComponent {
   makeMove = (rowIndex, columnIndex, gameId) => {
@@ -19,8 +19,21 @@ class Board extends PureComponent {
 
   render() {
     const { currentGame, currentPlayer } = this.props
-
+    console.log(currentGame)
+    console.log(currentPlayer)
     if (!currentGame.board) return 'fetching..'
+
+    if (
+      currentGame.turn === currentPlayer.id &&
+      currentGame.character === 'shark'
+    ) {
+      return (
+        <div>
+          <p>YOUR OPPONENT IS BEING CHASED BY A SHARK!</p>
+          <img src={SharkChase} />
+        </div>
+      )
+    }
 
     return (
       <div>

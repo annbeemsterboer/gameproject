@@ -11,22 +11,25 @@ const StyledImgContainer = styled.div`
     width: 50px;
     height: 50px;
     margin: 0 10px;
-    :hover {
-      display: none;
-    }
   }
 `
 
 const Scoreboard = props => {
-  // const game = props.game
-  // const winnerId = Number(game.winner)
-  // const winnerUserId = game.players.find(p => p.id === winnerId).userId
-  // const winnerName = props.users[winnerUserId].firstName
+  let winnerName
+  if (props.game.winner === 'draw') {
+    winnerName = 'draw'
+  } else if (props.game.winner) {
+    const game = props.game
+    const winnerId = Number(game.winner)
+    console.log(winnerId)
+    const winnerUserId = game.players.find(p => p.id === winnerId).userId
+    winnerName = props.users[winnerUserId].firstName
+  }
 
-  // console.log(props.game)
   return (
     <div className="scoreboard">
-      <h1 className="header">Who will be the king-fisher?</h1>
+      <h1 className="header"> Who will be the king-fisher?</h1>
+      {props.game.winner !== null && `The king is ${winnerName}!`}
       <div className="players">
         <h1> The fishers: </h1>
 
@@ -42,8 +45,7 @@ const Scoreboard = props => {
             </div>
           )
         })}
-        {/* {console.log(props.game.players.find(p => p.id == props.game.winner))} */}
-        {/* {Object.values(props.users).find(user => user.id)} */}
+
         <StyledImgContainer>
           {props.game.characters.map(character => {
             return (

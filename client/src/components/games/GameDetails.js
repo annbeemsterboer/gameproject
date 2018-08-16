@@ -6,9 +6,7 @@ import { getUsers } from '../../actions/users'
 import { userId as getUserId } from '../../jwt'
 import Board from './Board'
 import InfoModal from './InfoModal'
-
 import Scoreboard from './Scoreboard'
-
 import './GameDetails.css'
 
 class GameDetails extends PureComponent {
@@ -29,19 +27,14 @@ class GameDetails extends PureComponent {
       currentUserId,
       currentPlayer
     } = this.props
-
     if (!authenticated) return <Redirect to="/login" />
     if (!currentGame) return <Redirect to="/games" />
 
     if (currentGame === null || users === null) return 'Loading...'
     if (!currentGame) return 'Not found'
 
-    const winner = currentGame.players
-      .filter(p => p.symbol === currentGame.winner)
-      .map(p => p.userId)[0]
-
     return (
-      <div>
+      <div className="body">
         <h1>Game #{currentGame.id}</h1>
 
         <p>Status: {currentGame.status}</p>
@@ -52,9 +45,16 @@ class GameDetails extends PureComponent {
 
         {currentGame.status === 'pending' &&
           currentGame.players.map(p => p.userId).indexOf(currentUserId) ===
-            -1 && <button onClick={this.joinGame}>Join Game</button>}
+            -1 && (
+            <button
+              style={{ backgroundColor: '#d6e3e0' }}
+              onClick={this.joinGame}
+            >
+              Join Game
+            </button>
+          )}
 
-        {winner && <p>Winner: {users[winner].firstName}</p>}
+        {/* {currentGame.winner && <p>Winner: {users[winner].firstName}</p>} */}
         <InfoModal />
         <hr />
         <div className="page">
