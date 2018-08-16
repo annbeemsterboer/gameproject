@@ -33,7 +33,7 @@ export class Game extends BaseEntity {
   @Column('int', { nullable: true })
   turn: number
 
-  @Column('char', { nullable: true })
+  @Column('text', { nullable: true })
   winner: string
 
   @Column('text', { default: 'pending' })

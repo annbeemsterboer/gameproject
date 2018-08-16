@@ -165,7 +165,7 @@ export default class GameController {
       game.turn = otherPlayerId!
 
       //update
-      // await Promise.all([player.save(), game.save()])
+      await Promise.all([player.save(), game.save()])
       let updatedGame = await Game.findOneById(game.id)
       if (!updatedGame) throw new NotFoundError('no game found')
 
@@ -187,7 +187,7 @@ export default class GameController {
         updatedGame = await updatedGame.save()
       }
 
-      console.log(updatedGame.winner)
+      console.log(updatedGame.board)
 
       io.emit('action', {
         type: 'UPDATE_GAME',
