@@ -3,8 +3,7 @@ import './Board.css'
 import { connect } from 'react-redux'
 import { sendMoveInfo } from '../../actions/games'
 import './GameDetails.css'
-import rod from './assets/img/rod.png'
-
+import InfoModal from './InfoModal'
 import seaweed from './assets/img/seaweed.png'
 import fish from './assets/img/normalfish.png'
 import sea from './assets/img/sea.png'
@@ -46,28 +45,33 @@ class Board extends PureComponent {
     if (!currentGame.board) return 'fetching..'
 
     return (
-      <div className="buttonPad">
-        {currentGame.board.map((row, rowI) => {
-          return (
-            <div key={rowI} className="buttonRow">
-              {row.map((column, columnI) => {
-                return (
-                  <button
-                    className="button"
-                    key={columnI}
-                    disabled={
-                      currentGame.turn !== currentPlayer.id || column !== null
-                    }
-                    onClick={() => this.makeMove(rowI, columnI, currentGame.id)}
-                    style={{
-                      backgroundImage: `url(${generateImageUrl(column)}`
-                    }}
-                  />
-                )
-              })}
-            </div>
-          )
-        })}
+      <div>
+        <div className="buttonPad">
+          {currentGame.board.map((row, rowI) => {
+            return (
+              <div key={rowI} className="buttonRow">
+                {row.map((column, columnI) => {
+                  return (
+                    <button
+                      className="button"
+                      key={columnI}
+                      disabled={
+                        currentGame.turn !== currentPlayer.id || column !== null
+                      }
+                      onClick={() =>
+                        this.makeMove(rowI, columnI, currentGame.id)
+                      }
+                      style={{
+                        backgroundImage: `url(${generateImageUrl(column)}`
+                      }}
+                    />
+                  )
+                })}
+              </div>
+            )
+          })}
+        </div>
+        {/* <InfoModal /> */}
       </div>
     )
   }

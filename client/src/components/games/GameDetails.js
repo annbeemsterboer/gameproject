@@ -5,6 +5,7 @@ import { getGames, joinGame } from '../../actions/games'
 import { getUsers } from '../../actions/users'
 import { userId as getUserId } from '../../jwt'
 import Board from './Board'
+import InfoModal from './InfoModal'
 
 import Scoreboard from './Scoreboard'
 
@@ -30,6 +31,7 @@ class GameDetails extends PureComponent {
     } = this.props
 
     if (!authenticated) return <Redirect to="/login" />
+    if (!currentGame) return <Redirect to="/games" />
 
     if (currentGame === null || users === null) return 'Loading...'
     if (!currentGame) return 'Not found'
@@ -53,7 +55,7 @@ class GameDetails extends PureComponent {
             -1 && <button onClick={this.joinGame}>Join Game</button>}
 
         {winner && <p>Winner: {users[winner].firstName}</p>}
-
+        <InfoModal />
         <hr />
         <div className="page">
           {currentGame.status !== 'pending' && (
