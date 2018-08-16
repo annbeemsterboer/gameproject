@@ -29,16 +29,15 @@ class GameDetails extends PureComponent {
       currentUserId,
       currentPlayer
     } = this.props
-
     if (!authenticated) return <Redirect to="/login" />
     if (!currentGame) return <Redirect to="/games" />
 
     if (currentGame === null || users === null) return 'Loading...'
     if (!currentGame) return 'Not found'
 
-    const winner = currentGame.players
-      .filter(p => p.symbol === currentGame.winner)
-      .map(p => p.userId)[0]
+    // const winner = currentGame.players
+    //   .filter(p => p.symbol === currentGame.winner)
+    //   .map(p => p.userId)[0]
 
     return (
       <div>
@@ -54,7 +53,7 @@ class GameDetails extends PureComponent {
           currentGame.players.map(p => p.userId).indexOf(currentUserId) ===
             -1 && <button onClick={this.joinGame}>Join Game</button>}
 
-        {winner && <p>Winner: {users[winner].firstName}</p>}
+        {/* {currentGame.winner && <p>Winner: {users[winner].firstName}</p>} */}
         <InfoModal />
         <hr />
         <div className="page">
