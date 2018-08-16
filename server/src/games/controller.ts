@@ -144,7 +144,6 @@ export default class GameController {
 
       // update board with the character
       game.board[position.rowIndex][position.columnIndex] = character
-
       //update remainig count
       if (character !== 'seaweed') {
         const fishCharacter = await Character.findOne({ name: character, game })
@@ -177,17 +176,17 @@ export default class GameController {
       const sortedPlayers = updatedGame.players.sort(
         (a, b) => b.point - a.point
       )
-      if (total <= 0) {
+      if (total === 0) {
         if (sortedPlayers[0].point === sortedPlayers[1].point) {
           updatedGame.winner = 'draw'
         } else {
           updatedGame.winner = String(sortedPlayers[0].id)
         }
-
+        updatedGame.board = updatedGame.generatedBoard
         updatedGame = await updatedGame.save()
       }
 
-      console.log(updatedGame.board)
+      updatedGame.character = character
 
       io.emit('action', {
         type: 'UPDATE_GAME',
