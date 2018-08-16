@@ -19,7 +19,6 @@ import { Validate } from 'class-validator'
 import { io } from '../index'
 import { calculatePoints } from '../libs/gameFunctions'
 import { boardSetting } from './gameSettings'
-import launch from '../../../.vscode/launch.json'
 
 class updatedGameData {
   // @Validate(IsBoard, {
@@ -29,6 +28,7 @@ class updatedGameData {
     columnIndex: number
     rowIndex: number
   }
+  isSharkBeaten: boolean
 }
 
 @JsonController()
@@ -95,8 +95,7 @@ export default class GameController {
 
     const player = await Player.create({
       game,
-      user,
-      point: 50
+      user
     }).save()
 
     const updatedGame = await Game.findOneById(game.id)
@@ -117,9 +116,10 @@ export default class GameController {
   async updateGame(
     @CurrentUser() user: User,
     @Param('id') gameId: number,
-    @Body() { position }: updatedGameData
+    @Body() { position, isSharkBeaten }: updatedGameData
   ) {
     console.log('=================', Date.now())
+
     try {
       const game = await Game.findOneById(gameId)
 
@@ -132,7 +132,7 @@ export default class GameController {
         throw new BadRequestError('The game is not started yet')
 
       if (player.id !== game.turn)
-        throw new BadRequestError("It's not your turn")
+        throw new BadRequestError('It\'s not your turn')
 
       if (game.board[position.rowIndex][position.columnIndex] !== null) {
         throw new BadRequestError('Invalid move')
@@ -141,6 +141,23 @@ export default class GameController {
       // fetch item from the generated board
       const character =
         game.generatedBoard[position.rowIndex][position.columnIndex]
+
+      // if shark, don't update the database and send the user the previous position and character
+      if (character === 'shark' && isSharkBeaten === undefined) {
+        game.board[position.rowIndex][position.columnIndex] = character
+        game.previousPosition = {
+          rowIndex: position.rowIndex,
+          columnIndex: position.columnIndex
+        }
+        game.character = character
+
+        io.emit('action', {
+          type: 'UPDATE_GAME',
+          payload: game
+        })
+
+        return game
+      }
 
       // update board with the character
       game.board[position.rowIndex][position.columnIndex] = character
@@ -154,7 +171,8 @@ export default class GameController {
         }
       }
       // add/subtract points accordingly
-      player.point = calculatePoints(player, character)
+      player.point = calculatePoints(player, character, isSharkBeaten)
+
       // set the player to the game before updating the points
       const playerIndex = game.players.findIndex(p => p.id === player.id)
       game.players[playerIndex] = player
@@ -169,14 +187,16 @@ export default class GameController {
       if (!updatedGame) throw new NotFoundError('no game found')
 
       // calculate winner
-      const total = updatedGame.characters.reduce(
+      const totalAmount = updatedGame.characters.reduce(
         (total, character) => (total += character.count),
         0
       )
+
       const sortedPlayers = updatedGame.players.sort(
         (a, b) => b.point - a.point
       )
-      if (total === 0) {
+
+      if (totalAmount === 0) {
         if (sortedPlayers[0].point === sortedPlayers[1].point) {
           updatedGame.winner = 'draw'
         } else {
@@ -186,7 +206,7 @@ export default class GameController {
         updatedGame = await updatedGame.save()
       }
 
-      updatedGame.character = character
+      updatedGame.character = isSharkBeaten === undefined ? character : null
 
       io.emit('action', {
         type: 'UPDATE_GAME',

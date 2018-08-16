@@ -1,33 +1,33 @@
 http://localhost:4000/games/1
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDMwMzYyLCJleHAiOjE1MzQ0NDQ3NjJ9.HDkvmBFxRnRfAkwR95JVvjX7GlprbFCPOwBNev37kTs
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDQzNzc5LCJleHAiOjE1MzQ0NTgxNzl9.dxX6Lnu17r9PbZZNFQHybhUVs0NYFVLBVJzP3doMbYg
 
 ###
 http://localhost:4000/games
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDMwMzYyLCJleHAiOjE1MzQ0NDQ3NjJ9.HDkvmBFxRnRfAkwR95JVvjX7GlprbFCPOwBNev37kTs
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDQzNzc5LCJleHAiOjE1MzQ0NTgxNzl9.dxX6Lnu17r9PbZZNFQHybhUVs0NYFVLBVJzP3doMbYg
 
 
 ############ CREATE GAME ###############
 ### Hajime
 POST http://localhost:4000/games
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDMwMzYyLCJleHAiOjE1MzQ0NDQ3NjJ9.HDkvmBFxRnRfAkwR95JVvjX7GlprbFCPOwBNev37kTs
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDQzNzc5LCJleHAiOjE1MzQ0NTgxNzl9.dxX6Lnu17r9PbZZNFQHybhUVs0NYFVLBVJzP3doMbYg
 ############ UPDATE GAME ###############
-PATCH http://localhost:4000/games/33
+PATCH http://localhost:4000/games/36
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDMwMzYyLCJleHAiOjE1MzQ0NDQ3NjJ9.HDkvmBFxRnRfAkwR95JVvjX7GlprbFCPOwBNev37kTs
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDQzNzc5LCJleHAiOjE1MzQ0NTgxNzl9.dxX6Lnu17r9PbZZNFQHybhUVs0NYFVLBVJzP3doMbYg
 
 {
   "position":{
-    "rowIndex": 0,
-    "columnIndex": 2
+    "rowIndex": 1,
+    "columnIndex": 1
   } 
 }
 ############ UPDATE GAME ###############
-PATCH http://localhost:4000/games/33
+PATCH http://localhost:4000/games/36
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNTM0NDMwNjE3LCJleHAiOjE1MzQ0NDUwMTd9.frpYoCLs5weeP_08Mtcwv2hTVOuUEMVnFYDsuR3e_9U
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTM0NDQzODA5LCJleHAiOjE1MzQ0NTgyMDl9.vD8F4Dv91jPK4kX_Krwg6kRiRqqAK9pCFHJuPglRvRQ
 
 {
   "position":{
