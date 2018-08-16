@@ -6,7 +6,7 @@
 export type specialSymbols = 'seaweed' | 'octopus' | 'fish' | 'shark'
 
 export const boardSetting = {
-  gridSize: 5,
+  gridSize: 3,
   characters: {
     seaweed: {
       amount: 0,

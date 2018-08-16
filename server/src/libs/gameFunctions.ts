@@ -45,5 +45,7 @@ export const calculatePoints = (
   player: Player,
   character: specialSymbols
 ): number => {
+  console.log(character, boardSetting.characters[character].point)
+
   return player.point + boardSetting.characters[character].point
 }
