@@ -34,7 +34,7 @@
   right: 2em
 }
 
-.modal-button :hover {
+.modal-button-open :hover {
   cursor: pointer;
   background-color: #a1e0ff;
 }

@@ -43,13 +43,9 @@ export default class InfoModal extends React.Component {
           onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           className="modal"
-          //   overlayClassName="modal-overlay"
           contentLabel="Example Modal"
         >
-          <h2
-            className="header"
-            //   ref={subtitle => (this.subtitle = subtitle)}
-          >
+          <h2 className="header">
             Catch all the fish! <span role="img">🐟</span>
           </h2>
 
