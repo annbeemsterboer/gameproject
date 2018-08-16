@@ -37,6 +37,10 @@ const SharkModal = styled.div`
   padding: 0;
   margin: 0;
   h1 {
+    color: white;
+    text-align: center;
+  }
+  .timer {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -55,8 +59,8 @@ class Shark extends Component {
     started: false,
     count: 3,
     position: {
-      top: 10,
-      left: 0
+      top: window.innerHeight / 4,
+      left: window.innerWidth / 4
     },
     timer: 5
   }
@@ -105,10 +109,13 @@ class Shark extends Component {
     )
   }
   render() {
-    if (this.props.show !== true) return null
     return (
       <SharkModal>
-        <h1>{this.state.timer !== 0 ? this.state.timer : null}</h1>
+        <h1>Click the Shark!</h1>
+        <h2 className="timer">
+          {this.state.timer !== 0 ? this.state.timer : null}
+        </h2>
+
         <StyledShark
           position={this.state.position}
           onClick={this.generateSharkPosition}

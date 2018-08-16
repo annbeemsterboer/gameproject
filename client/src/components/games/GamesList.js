@@ -8,12 +8,8 @@ import Paper from 'material-ui/Paper'
 import Card, { CardActions, CardContent } from 'material-ui/Card'
 import Typography from 'material-ui/Typography'
 import './GamesList.css'
-import Shark from './Shark'
 
 class GamesList extends PureComponent {
-  state = {
-    shark: false
-  }
   componentWillMount() {
     if (this.props.authenticated) {
       if (this.props.games === null) this.props.getGames()
@@ -31,10 +27,7 @@ class GamesList extends PureComponent {
             This game is played by&nbsp;
             {game.players
               .map(player => {
-                // console.log(game)
-                // console.log(users)
-                // console.log(player)
-                // return users[player.id].firstName
+                return users[player.userId].firstName
               })
               .join(' and ')}
           </Typography>
@@ -64,8 +57,6 @@ class GamesList extends PureComponent {
 
     return (
       <Paper className="outer-paper">
-        <button onClick={() => this.setState({ shark: true })} />
-        <Shark show={this.state.shark} />
         <Button
           color="primary"
           variant="raised"

@@ -20,9 +20,6 @@ class Board extends PureComponent {
   render() {
     const { currentGame, currentPlayer } = this.props
 
-    // console.log('turn', currentGame.turn)
-    // console.log('currentPlayer', currentPlayer)
-
     if (!currentGame.board) return 'fetching..'
 
     return (
@@ -52,7 +49,6 @@ class Board extends PureComponent {
             )
           })}
         </div>
-        {/* <InfoModal /> */}
       </div>
     )
   }
