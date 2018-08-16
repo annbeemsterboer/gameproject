@@ -1,18 +1,20 @@
 .page {
   display: flex;
-  justify-content: center
+  justify-content: center;
 }
 
 .scoreboard {
   display: flex;
   flex-direction: column;
   padding: 30px;
+  padding-top: 100px;
   font-family: 'Inconsolata', monospace;
 }
 
 .players {
   display: flex;
-  flex-direction: column
+  flex-direction: column;
+  font-size: 1em;
 }
 
 .player {
@@ -31,7 +33,6 @@
 }
 
 .header {
-  padding: 5px 10px;
   text-align: center;
   display: flex;
   align-items: center;
@@ -39,6 +40,8 @@
   padding: 10px;
   border-radius: 15px 15px 0 0;
   border-bottom: solid 2px #86cece;
+  font-size: 1.9em;
+  margin-top: 0px;
 }
 
 .buttonPad {
@@ -61,13 +64,9 @@
 }
 
 .button:hover {
-  cursor: url() 10 12;
+  /* cursor: url() 10 12; */
   background: url("https://i.pinimg.com/736x/45/1b/49/451b49be57e755993051af6561f8ae61--fish-logo-design-fisk.jpg") no-repeat;
   background-size: 100% !important;
   background-position: center;
   /* color: white; */
-}
-
-.button:active {
-  background: fish-to-be;
 }
