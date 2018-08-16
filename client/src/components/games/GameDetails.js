@@ -18,7 +18,7 @@ class GameDetails extends PureComponent {
     }
   }
 
-  joinGame = () => this.props.joinGame(this.props.game.id)
+  joinGame = () => this.props.joinGame(this.props.match.params.id)
 
   render() {
     const {
