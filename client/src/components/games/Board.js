@@ -15,13 +15,11 @@ import PointsModal from './PointsModal'
 
 import Octopus from './Octopus'
 
-
 export const seaAudio = new Audio(seaSound)
 const frogAudio = new Audio(frogSound)
 const fishAudio = new Audio(fishSound)
 
 class Board extends PureComponent {
-
   state = {
     showPoints: true,
     showOctopus: false
@@ -45,7 +43,6 @@ class Board extends PureComponent {
       case 'fish':
         return fishAudio.play()
       // case 'octopus':
-      // return <Octopus />
       case 'shark':
         return this.stopSeaSound()
       default:
@@ -64,7 +61,6 @@ class Board extends PureComponent {
   componentWillUnmount() {
     this.stopSeaSound()
   }
-
 
   componentDidUpdate(prevProps) {
     if (prevProps.currentGame.turn !== this.props.currentGame.turn) {
