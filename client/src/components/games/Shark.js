@@ -133,8 +133,6 @@ class Shark extends Component {
   }
 
   generateSharkPosition = () => {
-    // if (!this.state.started) return
-
     const randomX = Math.floor(Math.random() * window.innerWidth - iconSize)
 
     // need to change it
