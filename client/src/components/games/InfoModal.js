@@ -78,8 +78,13 @@ export default class InfoModal extends React.Component {
             </StyledFlex>
             <StyledFlex>
               {' '}
-              <StyledImage src={generateImageUrl('shark')} />: ±20 points{' '}
+              <StyledImage src={generateImageUrl('frog')} /> : 15 points{' '}
               <span role="img">👍</span>
+            </StyledFlex>
+            <StyledFlex>
+              {' '}
+              <StyledImage src={generateImageUrl('shark')} />: ±20 points{' '}
+              <span role="img">???</span>
             </StyledFlex>
             <div
               style={{

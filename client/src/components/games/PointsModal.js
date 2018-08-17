@@ -7,7 +7,7 @@ const fadeAnimation = keyframes`
     opacity: 0;
   }
   40%{
-   transform: translateY(-40px);
+   transform: translateY(-80px);
   }
   50%{
     transform: translateY(0px);
@@ -40,6 +40,7 @@ const StyledModalForPoints = styled.div`
   background-color: ${({ point }) =>
     point === 0 ? 'Cornsilk ' : point > 0 ? 'lightblue' : 'LightCoral '};
   box-shadow: 0px 5px 17px lightgrey;
+  z-index: 9999;
 `
 const PointsModal = ({ point }) => {
   return <StyledModalForPoints point={point}>{point}</StyledModalForPoints>
