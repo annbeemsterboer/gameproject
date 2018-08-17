@@ -65,20 +65,13 @@ class Board extends PureComponent {
   componentDidUpdate(prevProps) {
     if (prevProps.currentGame.turn !== this.props.currentGame.turn) {
       this.setState({ showPoints: true })
-      setTimeout(() => {
-        this.setState({ showPoints: false })
-      }, 2000)
+      if (this.props.currentGame.character === 'octopus') {
+        this.setState({ showOctopus: true })
+      }
     }
-  }
-
-  closeOctopus = () => {
-    this.setState({ showOctopus: false })
-  }
-
-  openOctopus = () => {
     setTimeout(() => {
-      this.closeOctopus()
-    }, 4000)
+      this.setState({ showPoints: false, showOctopus: false })
+    }, 3500)
   }
 
   render() {
@@ -126,7 +119,7 @@ class Board extends PureComponent {
             position={currentGame.previousPosition}
           />
         ) : null}
-        {/* {this.state.showOctopus && <Octopus />} */}
+        {this.state.showOctopus && <Octopus />}
 
         <div className="buttonPad">
           {currentGame.board.map((row, rowIndex) => {
