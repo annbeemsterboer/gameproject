@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import shark from './assets/img/shark.jpg'
 import styled, { keyframes } from 'styled-components'
 import jaws from './assets/audio/Jaws-song-speed.mp3'
+import { seaAudio } from './Board'
 
 const sharkAudio = new Audio(jaws)
 
@@ -99,16 +100,16 @@ class Shark extends Component {
     )
   }
 
-  playAudio = () => {
+  playSharkSound = () => {
     sharkAudio.play()
   }
 
-  stopAudio = () => {
+  stopSharkSound = () => {
     sharkAudio.pause()
   }
 
   componentDidMount() {
-    this.playAudio()
+    this.playSharkSound()
 
     setTimeout(() => {
       if (this.state.count > 0 && !this.state.isBeaten) {
@@ -129,7 +130,8 @@ class Shark extends Component {
   }
 
   componentWillUnmount() {
-    this.stopAudio()
+    this.stopSharkSound()
+    seaAudio.play()
   }
 
   generateSharkPosition = () => {
