@@ -131,16 +131,16 @@ export default class GameController {
 
       const player = await Player.findOne({ user, game })
 
-      // if (!player) throw new ForbiddenError('You are not part of this game')
-      // if (game.status !== 'started')
-      //   throw new BadRequestError('The game is not started yet')
+      if (!player) throw new ForbiddenError('You are not part of this game')
+      if (game.status !== 'started')
+        throw new BadRequestError('The game is not started yet')
 
-      // if (player.id !== game.turn)
-      //   throw new BadRequestError("It's not your turn")
+      if (player.id !== game.turn)
+        throw new BadRequestError("It's not your turn")
 
-      // if (game.board[position.rowIndex][position.columnIndex] !== null) {
-      //   throw new BadRequestError('Invalid move')
-      // }
+      if (game.board[position.rowIndex][position.columnIndex] !== null) {
+        throw new BadRequestError('Invalid move')
+      }
 
       // fetch item from the generated board
       const character =
@@ -171,7 +171,7 @@ export default class GameController {
         if (!fishCharacter) throw new Error('invalid character')
         if (fishCharacter.count !== 0) {
           fishCharacter.count -= 1
-          // await fishCharacter.save()
+          await fishCharacter.save()
         }
       }
       // add/subtract points accordingly
@@ -187,7 +187,8 @@ export default class GameController {
       game.turn = otherPlayerId!
 
       //update
-      // await Promise.all([player.save(), game.save()])
+      await Promise.all([player.save(), game.save()])
+
       let updatedGame = await Game.findOneById(game.id)
       if (!updatedGame) throw new NotFoundError('no game found')
 
@@ -217,6 +218,7 @@ export default class GameController {
 
       updatedGame.character = isSharkBeaten === undefined ? character : null
       updatedGame.pointAdded = calculatePoints(character, isSharkBeaten)
+
       io.emit('action', {
         type: 'UPDATE_GAME',
         payload: updatedGame

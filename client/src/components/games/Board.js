@@ -9,16 +9,19 @@ import Shark from './Shark'
 import seaSound from './assets/audio/Sea-noises.mp3'
 import frogSound from './assets/audio/frog.mp3'
 import fishSound from './assets/audio/fish.wav'
+import styled, { keyframes } from 'styled-components'
+import PointsModal from './PointsModal'
 
 export const seaAudio = new Audio(seaSound)
 const frogAudio = new Audio(frogSound)
 const fishAudio = new Audio(fishSound)
 
-const StyledModalForPoints = styled.div``
 class Board extends PureComponent {
-  makeMove = (rowIndex, columnIndex, isSharkBeaten) => {
-    console.log(rowIndex, isSharkBeaten)
+  state = {
+    showPoints: true
+  }
 
+  makeMove = (rowIndex, columnIndex, isSharkBeaten) => {
     this.props.sendMoveInfo(
       {
         rowIndex,
@@ -60,8 +63,17 @@ class Board extends PureComponent {
     this.stopSeaSound()
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentGame.turn !== this.props.currentGame.turn) {
+      this.setState({ showPoints: true })
+      setTimeout(() => {
+        this.setState({ showPoints: false })
+      }, 2000)
+    }
+  }
   render() {
     const { currentGame, currentPlayer } = this.props
+    console.log(currentGame.pointAdded)
 
     if (!currentGame.board) return 'fetching..'
 
@@ -83,13 +95,17 @@ class Board extends PureComponent {
 
     return (
       <div>
+        {currentGame.pointAdded !== undefined &&
+        currentGame.turn !== currentPlayer.id &&
+        this.state.showPoints ? (
+          <PointsModal point={currentGame.pointAdded} />
+        ) : null}
         {currentGame.character === 'shark' ? (
           <Shark
             makeMove={this.makeMove}
             position={currentGame.previousPosition}
           />
         ) : null}
-
         <div className="buttonPad">
           {currentGame.board.map((row, rowIndex) => {
             return (
