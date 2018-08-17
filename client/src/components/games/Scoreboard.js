@@ -21,7 +21,6 @@ const Scoreboard = props => {
   } else if (props.game.winner) {
     const game = props.game
     const winnerId = Number(game.winner)
-    // console.log(winnerId)
     const winnerUserId = game.players.find(p => p.id === winnerId).userId
     winnerName = props.users[winnerUserId].firstName
   }
@@ -50,7 +49,7 @@ const Scoreboard = props => {
           {props.game.characters.map(character => {
             return (
               <div key={character.id}>
-                <img src={generateImageUrl(character.name)} />:{' '}
+                <img src={generateImageUrl(character.name)} alt="background" />:{' '}
                 {character.count}
               </div>
             )

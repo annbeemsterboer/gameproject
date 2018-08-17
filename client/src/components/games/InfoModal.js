@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import Modal from 'react-modal'
 import './InfoModal.css'
 import generateImageUrl from './libs/generateImageUrl'
@@ -44,7 +43,10 @@ export default class InfoModal extends React.Component {
     return (
       <div className="container">
         <button className="modal-button-open" onClick={this.openModal}>
-          Info <span role="img">ℹ️</span>
+          Info{' '}
+          <span role="img" aria-label="InfoMoji">
+            ℹ️
+          </span>
         </button>
         <Modal
           isOpen={this.state.modalIsOpen}
@@ -56,7 +58,10 @@ export default class InfoModal extends React.Component {
             className="header"
             style={{ marginBottom: '1em', padding: '1em' }}
           >
-            Catch all the fish! <span role="img">🐟</span>
+            Catch all the fish!{' '}
+            <span role="img" aria-label="FishMoji">
+              🐟
+            </span>
           </h2>
 
           <div className="body">
@@ -64,22 +69,30 @@ export default class InfoModal extends React.Component {
             <StyledFlex>
               {' '}
               <StyledImage src={generateImageUrl('seaweed')} /> : 0 points{' '}
-              <span role="img">👎</span>{' '}
+              <span role="img" aria-label="InfoMoji">
+                👎
+              </span>{' '}
             </StyledFlex>
             <StyledFlex>
               {' '}
               <StyledImage src={generateImageUrl('octopus')} /> : -10 points{' '}
-              <span role="img">👎</span>
+              <span role="img" aria-label="InfoMoji">
+                👎
+              </span>
             </StyledFlex>
             <StyledFlex>
               {' '}
               <StyledImage src={generateImageUrl('fish')} /> : 10 points{' '}
-              <span role="img">👍</span>
+              <span role="img" aria-label="InfoMoji">
+                👍
+              </span>
             </StyledFlex>
             <StyledFlex>
               {' '}
               <StyledImage src={generateImageUrl('shark')} />: ±20 points{' '}
-              <span role="img">👍</span>
+              <span role="img" aria-label="InfoMoji">
+                👍
+              </span>
             </StyledFlex>
             <div
               style={{
