@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import shark from './assets/img/shark.jpg'
 import styled, { keyframes } from 'styled-components'
+import jaws from './assets/audio/Jaws-song-speed.mp3'
+
+const sharkAudio = new Audio(jaws)
 
 const iconSize = 70
 
@@ -12,7 +15,6 @@ const posAbs = `
   right: 0;
   margin: auto;
 `
-
 
 const letterAnimation = keyframes`
   from{
@@ -96,7 +98,18 @@ class Shark extends Component {
       this.state.isBeaten
     )
   }
+
+  playAudio = () => {
+    sharkAudio.play()
+  }
+
+  stopAudio = () => {
+    sharkAudio.pause()
+  }
+
   componentDidMount() {
+    this.playAudio()
+
     setTimeout(() => {
       if (this.state.count > 0 && !this.state.isBeaten) {
         this.setState({ message: 'LOSE!', isBeaten: false })
@@ -115,9 +128,11 @@ class Shark extends Component {
     }, 1000)
   }
 
-  generateSharkPosition = () => {
-    // if (!this.state.started) return
+  componentWillUnmount() {
+    this.stopAudio()
+  }
 
+  generateSharkPosition = () => {
     const randomX = Math.floor(Math.random() * window.innerWidth - iconSize)
 
     // need to change it
