@@ -9,15 +9,16 @@ import Shark from './Shark'
 import seaSound from './assets/audio/Sea-noises.mp3'
 import frogSound from './assets/audio/frog.mp3'
 import fishSound from './assets/audio/fish.wav'
+import Octopus from './Octopus'
 
 export const seaAudio = new Audio(seaSound)
 const frogAudio = new Audio(frogSound)
 const fishAudio = new Audio(fishSound)
 
 class Board extends PureComponent {
-  makeMove = (rowIndex, columnIndex, isSharkBeaten) => {
-    console.log(rowIndex, isSharkBeaten)
+  state = { showOctopus: false }
 
+  makeMove = (rowIndex, columnIndex, isSharkBeaten) => {
     this.props.sendMoveInfo(
       {
         rowIndex,
@@ -35,7 +36,7 @@ class Board extends PureComponent {
       case 'fish':
         return fishAudio.play()
       // case 'octopus':
-      //   return octopusAudio.play()
+      // return <Octopus />
       case 'shark':
         return this.stopSeaSound()
       default:
@@ -59,10 +60,18 @@ class Board extends PureComponent {
     this.stopSeaSound()
   }
 
+  closeOctopus = () => {
+    this.setState({ showOctopus: false })
+  }
+
+  openOctopus = () => {
+    setTimeout(() => {
+      this.closeOctopus()
+    }, 4000)
+  }
+
   render() {
     const { currentGame, currentPlayer } = this.props
-    // console.log(currentGame)
-    // console.log(currentPlayer)
     if (!currentGame.board) return 'fetching..'
 
     if (
@@ -81,6 +90,17 @@ class Board extends PureComponent {
       this.playSound(currentGame.character)
     }
 
+    // if (
+    //   currentGame.turn !== currentPlayer.id &&
+    //   currentGame.character === 'octopus'
+    // ) {
+    //   this.setState({ showOctopus: true })
+    // }
+
+    // if (currentGame.turn === currentPlayer.id) {
+    //   this.closeOctopus()
+    // }
+
     return (
       <div>
         {currentGame.character === 'shark' ? (
@@ -89,6 +109,8 @@ class Board extends PureComponent {
             position={currentGame.previousPosition}
           />
         ) : null}
+        {/* {this.state.showOctopus && <Octopus />} */}
+
         <div className="buttonPad">
           {currentGame.board.map((row, rowIndex) => {
             return (
