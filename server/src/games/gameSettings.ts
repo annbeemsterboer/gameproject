@@ -3,7 +3,7 @@
 //   symbol: 'O' | 'Y' | 'Z'
 //   point: number
 // }
-export type specialSymbols = 'seaweed' | 'octopus' | 'fish' | 'shark'
+export type specialSymbols = 'seaweed' | 'octopus' | 'fish' | 'shark' | 'frog'
 
 export const boardSetting = {
   gridSize: 6,
@@ -14,7 +14,7 @@ export const boardSetting = {
       point: 0
     },
     octopus: {
-      amount: 9,
+      amount: 6,
       symbol: 'octopus',
       point: -10
     },
@@ -27,6 +27,11 @@ export const boardSetting = {
       amount: 5,
       symbol: 'shark',
       point: 20
+    },
+    frog: {
+      amount: 4,
+      symbol: 'frog',
+      point: 15
     }
   }
 }
