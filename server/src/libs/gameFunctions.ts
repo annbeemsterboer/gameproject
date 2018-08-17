@@ -2,8 +2,8 @@ import { boardSetting, specialSymbols } from '../games/gameSettings'
 import { Player } from '../games/entities'
 
 const { gridSize } = boardSetting
-const { seaweed, octopus, fish, shark } = boardSetting.characters
-const specialSymbol = [octopus, fish, shark]
+const { seaweed, octopus, fish, shark, frog } = boardSetting.characters
+const specialSymbol = [octopus, fish, shark, frog]
 
 const shuffleArray = targetArr => {
   const arr = [...targetArr]
