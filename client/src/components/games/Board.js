@@ -6,7 +6,13 @@ import './GameDetails.css'
 import generateImageUrl from './libs/generateImageUrl'
 import SharkChase from './assets/img/SharkChase.png'
 import Shark from './Shark'
-import styled from 'styled-components'
+import seaSound from './assets/audio/Sea-noises.mp3'
+import frogSound from './assets/audio/frog.mp3'
+import fishSound from './assets/audio/fish.wav'
+
+export const seaAudio = new Audio(seaSound)
+const frogAudio = new Audio(frogSound)
+const fishAudio = new Audio(fishSound)
 
 const StyledModalForPoints = styled.div``
 class Board extends PureComponent {
@@ -21,6 +27,37 @@ class Board extends PureComponent {
       this.props.currentGameId,
       isSharkBeaten
     )
+  }
+
+  playSound = character => {
+    switch (character) {
+      case 'frog':
+        return frogAudio.play()
+      case 'fish':
+        return fishAudio.play()
+      // case 'octopus':
+      //   return octopusAudio.play()
+      case 'shark':
+        return this.stopSeaSound()
+      default:
+        return seaAudio.play()
+    }
+  }
+
+  stopSeaSound = () => {
+    seaAudio.pause()
+  }
+
+  componentDidMount() {
+    seaAudio.play()
+  }
+
+  componentWillMount() {
+    seaAudio.play()
+  }
+
+  componentWillUnmount() {
+    this.stopSeaSound()
   }
 
   render() {
@@ -40,9 +77,13 @@ class Board extends PureComponent {
       )
     }
 
+    if (currentGame.turn === currentPlayer.id && currentGame.character) {
+      this.playSound(currentGame.character)
+    }
+
     return (
       <div>
-        {console.log(currentGame) || currentGame.character === 'shark' ? (
+        {currentGame.character === 'shark' ? (
           <Shark
             makeMove={this.makeMove}
             position={currentGame.previousPosition}
