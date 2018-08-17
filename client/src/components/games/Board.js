@@ -9,16 +9,22 @@ import Shark from './Shark'
 import seaSound from './assets/audio/Sea-noises.mp3'
 import frogSound from './assets/audio/frog.mp3'
 import fishSound from './assets/audio/fish.wav'
+
 import styled, { keyframes } from 'styled-components'
 import PointsModal from './PointsModal'
+
+import Octopus from './Octopus'
+
 
 export const seaAudio = new Audio(seaSound)
 const frogAudio = new Audio(frogSound)
 const fishAudio = new Audio(fishSound)
 
 class Board extends PureComponent {
+
   state = {
-    showPoints: true
+    showPoints: true,
+    showOctopus: false
   }
 
   makeMove = (rowIndex, columnIndex, isSharkBeaten) => {
@@ -39,7 +45,7 @@ class Board extends PureComponent {
       case 'fish':
         return fishAudio.play()
       // case 'octopus':
-      //   return octopusAudio.play()
+      // return <Octopus />
       case 'shark':
         return this.stopSeaSound()
       default:
@@ -55,13 +61,10 @@ class Board extends PureComponent {
     seaAudio.play()
   }
 
-  componentWillMount() {
-    seaAudio.play()
-  }
-
   componentWillUnmount() {
     this.stopSeaSound()
   }
+
 
   componentDidUpdate(prevProps) {
     if (prevProps.currentGame.turn !== this.props.currentGame.turn) {
@@ -71,9 +74,19 @@ class Board extends PureComponent {
       }, 2000)
     }
   }
+
+  closeOctopus = () => {
+    this.setState({ showOctopus: false })
+  }
+
+  openOctopus = () => {
+    setTimeout(() => {
+      this.closeOctopus()
+    }, 4000)
+  }
+
   render() {
     const { currentGame, currentPlayer } = this.props
-    console.log(currentGame.pointAdded)
 
     if (!currentGame.board) return 'fetching..'
 
@@ -93,6 +106,17 @@ class Board extends PureComponent {
       this.playSound(currentGame.character)
     }
 
+    // if (
+    //   currentGame.turn !== currentPlayer.id &&
+    //   currentGame.character === 'octopus'
+    // ) {
+    //   this.setState({ showOctopus: true })
+    // }
+
+    // if (currentGame.turn === currentPlayer.id) {
+    //   this.closeOctopus()
+    // }
+
     return (
       <div>
         {currentGame.pointAdded !== undefined &&
@@ -106,6 +130,8 @@ class Board extends PureComponent {
             position={currentGame.previousPosition}
           />
         ) : null}
+        {/* {this.state.showOctopus && <Octopus />} */}
+
         <div className="buttonPad">
           {currentGame.board.map((row, rowIndex) => {
             return (
