@@ -6,7 +6,9 @@ import './GameDetails.css'
 import generateImageUrl from './libs/generateImageUrl'
 import SharkChase from './assets/img/SharkChase.png'
 import Shark from './Shark'
+import styled from 'styled-components'
 
+const StyledModalForPoints = styled.div``
 class Board extends PureComponent {
   makeMove = (rowIndex, columnIndex, isSharkBeaten) => {
     console.log(rowIndex, isSharkBeaten)
@@ -23,8 +25,7 @@ class Board extends PureComponent {
 
   render() {
     const { currentGame, currentPlayer } = this.props
-    // console.log(currentGame)
-    // console.log(currentPlayer)
+
     if (!currentGame.board) return 'fetching..'
 
     if (
@@ -47,6 +48,7 @@ class Board extends PureComponent {
             position={currentGame.previousPosition}
           />
         ) : null}
+
         <div className="buttonPad">
           {currentGame.board.map((row, rowIndex) => {
             return (

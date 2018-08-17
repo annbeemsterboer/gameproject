@@ -17,8 +17,12 @@ import { Game, Player, Board, Character } from './entities'
 import { IsBoard, isValidTransition, calculateWinner, finished } from './logic'
 import { Validate } from 'class-validator'
 import { io } from '../index'
-import { calculatePoints } from '../libs/gameFunctions'
+import {
+  calculatePoints,
+  addPointInfoToCharacters
+} from '../libs/gameFunctions'
 import { boardSetting } from './gameSettings'
+import { calculatePoints } from '../../target/libs/gameFunctions'
 
 class updatedGameData {
   // @Validate(IsBoard, {
@@ -127,16 +131,16 @@ export default class GameController {
 
       const player = await Player.findOne({ user, game })
 
-      if (!player) throw new ForbiddenError('You are not part of this game')
-      if (game.status !== 'started')
-        throw new BadRequestError('The game is not started yet')
+      // if (!player) throw new ForbiddenError('You are not part of this game')
+      // if (game.status !== 'started')
+      //   throw new BadRequestError('The game is not started yet')
 
-      if (player.id !== game.turn)
-        throw new BadRequestError('It\'s not your turn')
+      // if (player.id !== game.turn)
+      //   throw new BadRequestError("It's not your turn")
 
-      if (game.board[position.rowIndex][position.columnIndex] !== null) {
-        throw new BadRequestError('Invalid move')
-      }
+      // if (game.board[position.rowIndex][position.columnIndex] !== null) {
+      //   throw new BadRequestError('Invalid move')
+      // }
 
       // fetch item from the generated board
       const character =
@@ -167,11 +171,12 @@ export default class GameController {
         if (!fishCharacter) throw new Error('invalid character')
         if (fishCharacter.count !== 0) {
           fishCharacter.count -= 1
-          await fishCharacter.save()
+          // await fishCharacter.save()
         }
       }
       // add/subtract points accordingly
-      player.point = calculatePoints(player, character, isSharkBeaten)
+
+      player.point += calculatePoints(character, isSharkBeaten)
 
       // set the player to the game before updating the points
       const playerIndex = game.players.findIndex(p => p.id === player.id)
@@ -182,7 +187,7 @@ export default class GameController {
       game.turn = otherPlayerId!
 
       //update
-      await Promise.all([player.save(), game.save()])
+      // await Promise.all([player.save(), game.save()])
       let updatedGame = await Game.findOneById(game.id)
       if (!updatedGame) throw new NotFoundError('no game found')
 
@@ -206,8 +211,12 @@ export default class GameController {
         updatedGame = await updatedGame.save()
       }
 
-      updatedGame.character = isSharkBeaten === undefined ? character : null
+      // add point reference to the characters
 
+      updatedGame.characters = addPointInfoToCharacters(updatedGame.characters)
+
+      updatedGame.character = isSharkBeaten === undefined ? character : null
+      updatedGame.pointAdded = calculatePoints(character, isSharkBeaten)
       io.emit('action', {
         type: 'UPDATE_GAME',
         payload: updatedGame
@@ -233,7 +242,6 @@ export default class GameController {
   @Get('/games')
   async getGames() {
     const games = await Game.find()
-    console.log(games[0].players)
     return games
   }
 }

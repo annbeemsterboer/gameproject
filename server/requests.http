@@ -1,31 +1,32 @@
 http://localhost:4000/games/1
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDQzNzc5LCJleHAiOjE1MzQ0NTgxNzl9.dxX6Lnu17r9PbZZNFQHybhUVs0NYFVLBVJzP3doMbYg
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDk2ODg4LCJleHAiOjE1MzQ1MTEyODh9.CC3nzuMxJmk5l1wgQYKC22wENXCPAD7JNiRyR6cx8Do
 
 ###
 http://localhost:4000/games
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDQzNzc5LCJleHAiOjE1MzQ0NTgxNzl9.dxX6Lnu17r9PbZZNFQHybhUVs0NYFVLBVJzP3doMbYg
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDk2ODg4LCJleHAiOjE1MzQ1MTEyODh9.CC3nzuMxJmk5l1wgQYKC22wENXCPAD7JNiRyR6cx8Do
 
 
 ############ CREATE GAME ###############
 ### Hajime
 POST http://localhost:4000/games
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDQzNzc5LCJleHAiOjE1MzQ0NTgxNzl9.dxX6Lnu17r9PbZZNFQHybhUVs0NYFVLBVJzP3doMbYg
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDk2ODg4LCJleHAiOjE1MzQ1MTEyODh9.CC3nzuMxJmk5l1wgQYKC22wENXCPAD7JNiRyR6cx8Do
 ############ UPDATE GAME ###############
-PATCH http://localhost:4000/games/36
+PATCH http://localhost:4000/games/35
 Content-Type: application/json
-Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDQzNzc5LCJleHAiOjE1MzQ0NTgxNzl9.dxX6Lnu17r9PbZZNFQHybhUVs0NYFVLBVJzP3doMbYg
+Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNTM0NDk2ODg4LCJleHAiOjE1MzQ1MTEyODh9.CC3nzuMxJmk5l1wgQYKC22wENXCPAD7JNiRyR6cx8Do
 
 {
   "position":{
     "rowIndex": 1,
     "columnIndex": 1
-  } 
+  } ,
+  "isSharkBeaten":false
 }
 ############ UPDATE GAME ###############
-PATCH http://localhost:4000/games/36
+PATCH http://localhost:4000/games/37
 Content-Type: application/json
 Authorization:  Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNTM0NDQzODA5LCJleHAiOjE1MzQ0NTgyMDl9.vD8F4Dv91jPK4kX_Krwg6kRiRqqAK9pCFHJuPglRvRQ
 

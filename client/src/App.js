@@ -7,11 +7,6 @@ import GameDetails from './components/games/GameDetails'
 import LogoutPage from './components/logout/LogoutPage'
 import './App.css'
 import TopBar from './components/layout/TopBar'
-import TestBoard from './TestBoard'
-
-// <Route exact path="/signup" component={SignupPage} />
-// <Route exact path="/games" component={GamesList} />
-// <Route exact path="/games/:id" component={GameDetails} />
 
 class App extends Component {
   render() {
@@ -28,7 +23,6 @@ class App extends Component {
             <Route exact path="/games" component={GamesList} />
             <Route exact path="/games/:id" component={GameDetails} />
             <Route exact path="/" render={() => <Redirect to="/games" />} />
-            {/* <TestBoard /> */}
           </main>
         </div>
       </Router>
