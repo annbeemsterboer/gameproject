@@ -14,14 +14,12 @@ const TopBar = props => {
   return (
     <AppBar
       position="absolute"
-      style={{ zIndex: 10 }}
-      style={{ backgroundColor: '#d6e3e0' }}
+      style={{ backgroundColor: '#d6e3e0', zIndex: 10 }}
     >
       <Toolbar>
         <Typography
           variant="title"
-          style={{ backgroundColor: '#d6e3e0' }}
-          style={{ flex: 1 }}
+          style={{ backgroundColor: '#d6e3e0', flex: 1 }}
         >
           Fish all the fishies
         </Typography>

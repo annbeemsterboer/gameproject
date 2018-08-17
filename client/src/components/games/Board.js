@@ -9,15 +9,14 @@ import Shark from './Shark'
 import seaSound from './assets/audio/Sea-noises.mp3'
 import frogSound from './assets/audio/frog.mp3'
 import fishSound from './assets/audio/fish.wav'
-
-import styled, { keyframes } from 'styled-components'
+import InkSound from './assets/audio/ink.wav'
 import PointsModal from './PointsModal'
-
 import Octopus from './Octopus'
 
 export const seaAudio = new Audio(seaSound)
 const frogAudio = new Audio(frogSound)
 const fishAudio = new Audio(fishSound)
+const inkAudio = new Audio(InkSound)
 
 class Board extends PureComponent {
   state = {
@@ -42,7 +41,8 @@ class Board extends PureComponent {
         return frogAudio.play()
       case 'fish':
         return fishAudio.play()
-      // case 'octopus':
+      case 'octopus':
+        return inkAudio.play()
       case 'shark':
         return this.stopSeaSound()
       default:
@@ -86,25 +86,14 @@ class Board extends PureComponent {
       return (
         <div>
           <p>YOUR OPPONENT IS BEING CHASED BY A SHARK!</p>
-          <img src={SharkChase} />
+          <img src={SharkChase} alt="shark" />
         </div>
       )
     }
 
-    if (currentGame.turn === currentPlayer.id && currentGame.character) {
+    if (currentGame.turn !== currentPlayer.id && currentGame.character) {
       this.playSound(currentGame.character)
     }
-
-    // if (
-    //   currentGame.turn !== currentPlayer.id &&
-    //   currentGame.character === 'octopus'
-    // ) {
-    //   this.setState({ showOctopus: true })
-    // }
-
-    // if (currentGame.turn === currentPlayer.id) {
-    //   this.closeOctopus()
-    // }
 
     return (
       <div>
