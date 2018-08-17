@@ -17,8 +17,12 @@ import { Game, Player, Board, Character } from './entities'
 import { IsBoard, isValidTransition, calculateWinner, finished } from './logic'
 import { Validate } from 'class-validator'
 import { io } from '../index'
-import { calculatePoints } from '../libs/gameFunctions'
+import {
+  calculatePoints,
+  addPointInfoToCharacters
+} from '../libs/gameFunctions'
 import { boardSetting } from './gameSettings'
+import { calculatePoints } from '../../target/libs/gameFunctions'
 
 class updatedGameData {
   // @Validate(IsBoard, {
@@ -132,7 +136,7 @@ export default class GameController {
         throw new BadRequestError('The game is not started yet')
 
       if (player.id !== game.turn)
-        throw new BadRequestError('It\'s not your turn')
+        throw new BadRequestError("It's not your turn")
 
       if (game.board[position.rowIndex][position.columnIndex] !== null) {
         throw new BadRequestError('Invalid move')
@@ -171,7 +175,8 @@ export default class GameController {
         }
       }
       // add/subtract points accordingly
-      player.point = calculatePoints(player, character, isSharkBeaten)
+
+      player.point += calculatePoints(character, isSharkBeaten)
 
       // set the player to the game before updating the points
       const playerIndex = game.players.findIndex(p => p.id === player.id)
@@ -183,6 +188,7 @@ export default class GameController {
 
       //update
       await Promise.all([player.save(), game.save()])
+
       let updatedGame = await Game.findOneById(game.id)
       if (!updatedGame) throw new NotFoundError('no game found')
 
@@ -206,7 +212,12 @@ export default class GameController {
         updatedGame = await updatedGame.save()
       }
 
+      // add point reference to the characters
+
+      updatedGame.characters = addPointInfoToCharacters(updatedGame.characters)
+
       updatedGame.character = isSharkBeaten === undefined ? character : null
+      updatedGame.pointAdded = calculatePoints(character, isSharkBeaten)
 
       io.emit('action', {
         type: 'UPDATE_GAME',
@@ -233,7 +244,6 @@ export default class GameController {
   @Get('/games')
   async getGames() {
     const games = await Game.find()
-    console.log(games[0].players)
     return games
   }
 }

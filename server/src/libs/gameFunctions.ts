@@ -1,5 +1,6 @@
 import { boardSetting, specialSymbols } from '../games/gameSettings'
 import { Player } from '../games/entities'
+
 const { gridSize } = boardSetting
 const { seaweed, octopus, fish, shark } = boardSetting.characters
 const specialSymbol = [octopus, fish, shark]
@@ -42,13 +43,20 @@ export const getEmptyBoard = () =>
   })
 
 export const calculatePoints = (
-  player: Player,
   character: specialSymbols,
   isSharkBeaten: boolean
 ): number => {
   console.log(character, boardSetting.characters[character].point)
   if (character === 'shark' && isSharkBeaten === false) {
-    return player.point - boardSetting.characters[character].point
+    return -boardSetting.characters[character].point
   }
-  return player.point + boardSetting.characters[character].point
+  return boardSetting.characters[character].point
 }
+
+export const addPointInfoToCharacters = characters =>
+  characters.map(character => {
+    const name = character.name
+    const point = boardSetting.characters[name].point
+    character.point = point
+    return character
+  })

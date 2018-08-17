@@ -9,14 +9,23 @@ import Shark from './Shark'
 import seaSound from './assets/audio/Sea-noises.mp3'
 import frogSound from './assets/audio/frog.mp3'
 import fishSound from './assets/audio/fish.wav'
+
+import styled, { keyframes } from 'styled-components'
+import PointsModal from './PointsModal'
+
 import Octopus from './Octopus'
+
 
 export const seaAudio = new Audio(seaSound)
 const frogAudio = new Audio(frogSound)
 const fishAudio = new Audio(fishSound)
 
 class Board extends PureComponent {
-  state = { showOctopus: false }
+
+  state = {
+    showPoints: true,
+    showOctopus: false
+  }
 
   makeMove = (rowIndex, columnIndex, isSharkBeaten) => {
     this.props.sendMoveInfo(
@@ -52,12 +61,18 @@ class Board extends PureComponent {
     seaAudio.play()
   }
 
-  componentWillMount() {
-    seaAudio.play()
-  }
-
   componentWillUnmount() {
     this.stopSeaSound()
+  }
+
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentGame.turn !== this.props.currentGame.turn) {
+      this.setState({ showPoints: true })
+      setTimeout(() => {
+        this.setState({ showPoints: false })
+      }, 2000)
+    }
   }
 
   closeOctopus = () => {
@@ -72,6 +87,7 @@ class Board extends PureComponent {
 
   render() {
     const { currentGame, currentPlayer } = this.props
+
     if (!currentGame.board) return 'fetching..'
 
     if (
@@ -103,6 +119,11 @@ class Board extends PureComponent {
 
     return (
       <div>
+        {currentGame.pointAdded !== undefined &&
+        currentGame.turn !== currentPlayer.id &&
+        this.state.showPoints ? (
+          <PointsModal point={currentGame.pointAdded} />
+        ) : null}
         {currentGame.character === 'shark' ? (
           <Shark
             makeMove={this.makeMove}
